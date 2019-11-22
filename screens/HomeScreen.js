@@ -1,5 +1,5 @@
 import * as WebBrowser from 'expo-web-browser';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   Image,
   Platform,
@@ -14,20 +14,33 @@ import { Provider, Store } from '../store'
 
 import { MonoText } from '../components/StyledText';
 
+import makeDateObj from "../helpers/dateFormatter"
 export default function HomeScreen() {
   const { state, dispatch } = useContext(Store)
+
+  useEffect(() => {
+    timeCount()
+  }, [])
+
+
+  const timeCount = () => {
+    setInterval(() => {
+      dispatch({ type: 'INCREMENT' })
+    }, 1000)
+    const day = makeDateObj(new Date())
+    console.log(day)
+  }
   return (
     <View style={styles.container}>
       <View>
-        <Button
-          title="Press me"
-          onPress={() => dispatch({ type: 'INCREMENT' })}
-        />
         <Text>count : {state.count}</Text>
       </View>
     </View>
   );
 }
+
+
+
 
 HomeScreen.navigationOptions = {
   header: null,
