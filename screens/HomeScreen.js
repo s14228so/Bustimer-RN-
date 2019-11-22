@@ -34,7 +34,7 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <View>
         <Text>count : {state.count}</Text>
-        <Text>date : {state.dateTimeStr}</Text>
+        <Text>date : {state.date ? state.date.dateTimeStr : 0}</Text>
       </View>
     </View>
   );
