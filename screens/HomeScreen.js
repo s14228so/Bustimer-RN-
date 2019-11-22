@@ -13,29 +13,32 @@ import {
 import { Provider, Store } from '../store'
 
 import { MonoText } from '../components/StyledText';
-
+import Widget from '../components/Widget';
+import NextBuses from '../components/NextBuses';
+import { plus } from "../actions"
 import makeDateObj from "../helpers/dateFormatter"
 export default function HomeScreen() {
   const { state, dispatch } = useContext(Store)
 
   useEffect(() => {
+
     timeCount()
   }, [])
 
 
   const timeCount = () => {
     setInterval(() => {
-      const day = makeDateObj(new Date())
-      dispatch({ type: 'INCREMENT' })
-      dispatch({ type: 'SET_DATE', day })
+      const date = makeDateObj(new Date())
+      dispatch({ type: 'INCREMENT', payload: 1 })
+      dispatch({ type: 'SET_DATE', payload: date })
     }, 1000)
   }
+
   return (
+
     <View style={styles.container}>
-      <View>
-        <Text>count : {state.count}</Text>
-        <Text>date : {state.date ? state.date.dateTimeStr : 0}</Text>
-      </View>
+      <Widget />
+      <NextBuses />
     </View>
   );
 }
@@ -86,7 +89,6 @@ function handleHelpPress() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 100,
     backgroundColor: '#fff',
   },
   developmentModeText: {

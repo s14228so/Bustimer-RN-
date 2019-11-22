@@ -1,3 +1,4 @@
+
 const makeDateObj = (date) => {
     //このdateにはnew Date()が毎300msごと入ってくる
     const yearStr = date.getFullYear();
