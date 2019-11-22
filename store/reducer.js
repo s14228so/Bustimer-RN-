@@ -10,6 +10,12 @@ const reducer = (state = {}, action) => {
                 ...state,
                 count: state.count - 1
             }
+        case 'SET_DATE':
+            console.log(action.day)
+            return {
+                ...state,
+                date: action.day
+            }
         default:
             return state
     }

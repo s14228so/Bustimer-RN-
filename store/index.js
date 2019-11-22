@@ -2,7 +2,8 @@ import React, { useReducer } from 'react'
 import reducer from './reducer'
 
 const initialState = {
-    count: 0
+    count: 0,
+    date: null
 }
 
 const Store = React.createContext()

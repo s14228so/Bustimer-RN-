@@ -25,15 +25,16 @@ export default function HomeScreen() {
 
   const timeCount = () => {
     setInterval(() => {
+      const day = makeDateObj(new Date())
       dispatch({ type: 'INCREMENT' })
+      dispatch({ type: 'SET_DATE', day })
     }, 1000)
-    const day = makeDateObj(new Date())
-    console.log(day)
   }
   return (
     <View style={styles.container}>
       <View>
         <Text>count : {state.count}</Text>
+        <Text>date : {state.dateTimeStr}</Text>
       </View>
     </View>
   );
