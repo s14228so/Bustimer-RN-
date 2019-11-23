@@ -20,17 +20,95 @@ import makeDateObj from "../helpers/dateFormatter"
 export default function HomeScreen() {
   const { state, dispatch } = useContext(Store)
 
+  const dataFetch = async () => {
+    const timeTable = (await import('../api/timeTable.json')).default;
+    dispatch({ type: "SET_TIMETABLE", payload: timeTable })
+    const holidays = (await import('../api/holidays.json')).default;
+    dispatch({ type: "SET_HOLIDAYS", payload: holidays })
+  }
   useEffect(() => {
-    timeCount()
-    dispatch({ type: "SET_FROM_TO", payload: { from: "sho", to: "sfc" } })
-  }, [])
+    // Using an IIFE
+    (async function loadData() {
+      await dataFetch()
+      await timeCount()
+    })();
+  }, []);
+
 
 
   const timeCount = () => {
+    const date = makeDateObj(new Date())
+    dispatch({ type: 'SET_DATE', payload: date })
+    dispatch({ type: "SET_FROM_TO", payload: { from: "aaa", to: "bbb" } })
+    setLeftBuses()
+    setLeftTime()
     setInterval(() => {
-      const date = makeDateObj(new Date())
-      dispatch({ type: 'SET_DATE', payload: date })
+      const mydate = makeDateObj(new Date())
+      dispatch({ type: 'SET_DATE', payload: mydate })
+      dispatch({ type: "SET_FROM_TO", payload: { from: "aaa", to: "bb" } })
+      setLeftBuses()
+      setLeftTime()
     }, 1000)
+  }
+
+
+  const setLeftTime = () => {
+    let leftTime;
+    if (state.bus.nextBuses && state.bus.nextBuses.length) {
+      const bus = state.bus.nextBuses[0];
+      let leftMinute, leftSecond;
+      leftSecond = 60 - date.second - 1;
+      if (bus.h > date.hour) {
+        leftMinute = ((bus.h - date.hour) * 60)
+          - date.minute
+          + bus.m - 1;
+      } else {
+        leftMinute = bus.m - date.minute - 1;
+      }
+      leftTime = {
+        m: leftMinute,
+        s: leftSecond
+      }
+    } else {
+      leftTime = {
+        m: 0,
+        s: 0
+      }
+    }
+
+    dispatch({ type: "COUNT_DOWN", payload: leftTime })
+  }
+
+  const setLeftBuses = () => {
+    console.log(state)
+
+    if (state.timer.date) {
+
+      const { hour, minute, date, hourStr, minuteStr, secondStr, monthStr, dayStr, dayOfWeek } = state.timer.date
+      const { timeTable, holidays } = state.data
+      console.log(timeTable)
+      const { to, from } = state.bus
+      // debugger
+      const isHoliday = (holidays && (monthStr + "-" + dayStr) in holidays) || dayOfWeek === 0;
+      const todayData = isHoliday
+        ? timeTable[from][to].holiday
+        : dayOfWeek === 6
+          ? timeTable[from][to].saturday
+          : timeTable[from][to].weekday;
+      // debugger
+      const nextBuses = todayData.filter(time => {
+        return (
+          (time.h > hour)
+          ||
+          (
+            time.h === hour &&
+            time.m > minute
+          )
+        )
+      });
+      dispatch({ type: "SET_BUSES", payload: nextBuses })
+    }
+
   }
 
   return (
