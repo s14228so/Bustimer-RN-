@@ -21,15 +21,14 @@ export default function HomeScreen() {
   const { state, dispatch } = useContext(Store)
 
   useEffect(() => {
-
     timeCount()
+    dispatch({ type: "SET_FROM_TO", payload: { from: "sho", to: "sfc" } })
   }, [])
 
 
   const timeCount = () => {
     setInterval(() => {
       const date = makeDateObj(new Date())
-      dispatch({ type: 'INCREMENT', payload: 1 })
       dispatch({ type: 'SET_DATE', payload: date })
     }, 1000)
   }

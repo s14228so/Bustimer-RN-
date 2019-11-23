@@ -1,9 +1,9 @@
 const bus = (state = {}, action) => {
     switch (action.type) {
         case "SET_FROM_TO":
-            return state
+            return { ...state, from: action.payload.from, to: action.payload.to }
         default:
-            return state
+            return { ...state, from: "sfc", to: "sho" }
     }
 }
 

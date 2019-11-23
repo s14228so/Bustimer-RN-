@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, View } from 'react-native';
 
+import { Store } from '../store'
+
+
 const Widget = (props) => {
+    const { state, dispatch } = useContext(Store)
     return (
         <View style={styles.wrapper}>
             <Text style={styles.headerText}>Widget</Text>

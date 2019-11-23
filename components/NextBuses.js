@@ -1,15 +1,24 @@
-import React, { useContext } from 'react';
-import { Text, View } from 'react-native';
+import React, { useContext, useEffect } from 'react';
+import { Text, View, Button } from 'react-native';
 import { Provider, Store } from '../store'
 
-const NextBuses = (props) => {
+const NextBuses = props => {
     const { state, dispatch } = useContext(Store)
+
+    const dataFetch = async () => {
+        const timeTable = (await import('../api/timeTable.json')).default;
+        const holidays = (await import('../api/holidays.json')).default;
+    }
+
+
+    console.log(state)
+    const { hourStr, minuteStr, secondStr } = state.timer.date
+
 
     return (
         <View style={styles.wrapper}>
             <Text style={styles.headerText}>NextBuses</Text>
-            <Text style={styles.headerText}>{state.timer.count}</Text>
-
+            <Text style={styles.headerText}>{hourStr}:{minuteStr}:{secondStr}</Text>
         </View>
     );
 };
