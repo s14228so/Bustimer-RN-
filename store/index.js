@@ -7,23 +7,24 @@ const Store = React.createContext()
 const initialState = {
     bus: {
         nextBuses: [],
-        from: "sfc",
-        to: "sho"
+        fromTo: {
+
+        }
     },
     timer: {
         count: 0,
         date: {},
-        m: "",
-        s: ""
+        ms: {}
     },
     data: {
-        timeTable: {},
+        timeTable: null,
         holidays: []
     }
 }
 
+// 配列だけいけてる
+
 const Provider = ({ children }) => {
-    console.log("provider")
     const [state, dispatch] = useReducer(reducer, initialState)
     return <Store.Provider value={{ state, dispatch }}>{children}</Store.Provider>
 }

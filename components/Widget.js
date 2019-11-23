@@ -8,7 +8,7 @@ const Widget = (props) => {
     const { state, dispatch } = useContext(Store)
     return (
         <View style={styles.wrapper}>
-            <Text style={styles.headerText}>{state.timer.m}:  {`${('00' + state.timer.s).slice(-2)}`}</Text>
+            <Text style={styles.headerText}>{state.timer.ms.m}:  {`${('00' + state.timer.ms.s).slice(-2)}`}</Text>
         </View>
     );
 };

@@ -3,7 +3,7 @@
 const timer = (state = {}, action) => {
     switch (action.type) {
         case "COUNT_DOWN":
-            return { ...state, m: state.m, s: state.s }
+            return { ...state, ms: action.payload }
         case "SET_DATE":
             return { ...state, date: action.payload }
         // = { date: state. + action.payload }
