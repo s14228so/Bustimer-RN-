@@ -1,5 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
+
 import {
   Image,
   Platform,
@@ -11,58 +12,56 @@ import {
   View,
 } from 'react-native';
 import { Provider, Store } from '../store'
-
-import { MonoText } from '../components/StyledText';
-import Widget from '../components/Widget';
-import NextBuses from '../components/NextBuses';
-import { plus } from "../actions"
 import makeDateObj from "../helpers/dateFormatter"
 export default function HomeScreen() {
   const { state, dispatch } = useContext(Store)
-  // console.log(state.bus) 6回走って5回目だけ取れてる
+  const [isSetData, setData] = useState(0)
+  const [count, setCount] = useState(0)
 
-  // vuexで置き換えてみたらわかる。storeの値を更新してそのあとにすぐに
-  // storeの値を下の行で使おうとしても無理なのは当たり前
   const dataFetch = async () => {
     const timeTable = (await import('../api/timeTable.json')).default;
 
     dispatch({ type: "SET_TIMETABLE", payload: timeTable })
     const holidays = (await import('../api/holidays.json')).default;
-    dispatch({ type: "SET_HOLIDYAS", payload: holidays })
-
-
+    dispatch({ type: "SET_HOLIDAYS", payload: holidays })
   }
+
+  const isFirstRef = useRef(true);
+  // 前回のステートも覚えておく
+  const lastStateRef = useRef();
+
   useEffect(() => {
-    // Using an IIFE
+
     (async function loadData() {
-      dispatch({ type: "SET_FROM_TO", payload: { from: "sho", to: "sfc" } })
-      await dataFetch()
-      timeCount()
+      if (isFirstRef.current) {
+        await dataFetch()
+        dispatch({ type: "SET_FROM_TO", payload: { from: "sho", to: "sfc" } })
+        setInterval(() => {
+          const date = makeDateObj(new Date())
+          dispatch({ type: 'SET_DATE', payload: date })
+          setCount(count + 1)
+        }, 1000);
+        isFirstRef.current = false;
+      } else {
+        if (state.data.timeTable && state.data.holidays && state.timer.date) {
+          setNextBuses()
+          setCountDown()
+        }
+      }
+      lastStateRef.current = count;
     })();
-  }, []);
 
-
-  // stateが書き換わるたび走ってるからバグってる？
-
-
-  const timeCount = () => {
-    const date = makeDateObj(new Date())
-    dispatch({ type: 'SET_DATE', payload: date })
-    // setLeftBuses()
-    // setLeftTime()
-    setInterval(() => {
-      const mydate = makeDateObj(new Date())
-      dispatch({ type: 'SET_DATE', payload: mydate })
-
-      // setLeftBuses()
-      // setLeftTime()
-    }, 1000)
-  }
+  }, [state.timer.date])
 
 
 
-  const setLeftTime = () => {
+
+
+
+
+  const setCountDown = () => {
     let leftTime;
+    const date = makeDateObj(new Date())
     if (state.bus.nextBuses && state.bus.nextBuses.length) {
       const bus = state.bus.nextBuses[0];
       let leftMinute, leftSecond;
@@ -74,37 +73,33 @@ export default function HomeScreen() {
       } else {
         leftMinute = bus.m - date.minute - 1;
       }
+
+      leftMinute = String(leftMinute).length === 1 ? `0${leftMinute}` : leftMinute
+      leftSecond = String(leftSecond).length === 1 ? `0${leftSecond}` : leftSecond
       leftTime = {
         m: leftMinute,
         s: leftSecond
-      }
-    } else {
-      leftTime = {
-        m: 0,
-        s: 0
       }
     }
 
     dispatch({ type: "COUNT_DOWN", payload: leftTime })
   }
 
-  const setLeftBuses = () => {
-    // ここで書き換わってる
+  const setNextBuses = () => {
 
-    const { hour, minute, date, hourStr, minuteStr, secondStr, monthStr, dayStr, dayOfWeek } = state.data.timeTable
+    const { hour, minute, date, hourStr, minuteStr, secondStr, monthStr, dayStr, dayOfWeek } = state.timer.date
     const { holidays, timeTable } = state.data
-    console.log(hour)
+
     const { to, from } = state.bus.fromTo
-    console.log(state.bus.fromTo)
-    // debugger
+
+
     const isHoliday = (holidays && (monthStr + "-" + dayStr) in holidays) || dayOfWeek === 0;
     const todayData = isHoliday
       ? timeTable[from][to].holiday
       : dayOfWeek === 6
         ? timeTable[from][to].saturday
         : timeTable[from][to].weekday;
-    // debugger
-    const nextBuses = todayData.filter(time => {
+    let nextBuses = todayData.filter(time => {
       return (
         (time.h > hour)
         ||
@@ -114,57 +109,59 @@ export default function HomeScreen() {
         )
       )
     });
+
+    nextBuses = nextBuses.map(time => {
+      time.h = String(time.h).length === 1 ? `0${time.h}` : time.h
+      time.m = String(time.m).length === 1 ? `0${time.m}` : time.m
+      return time
+    })
     dispatch({ type: "SET_BUSES", payload: nextBuses })
   }
-  console.log(state.data)
 
-  if (state.bus.fromTo.from && state.data.timeTable) {
-    console.log(state.data)
-    setLeftBuses()
+
+  const setBus = () => {
+    if ("from" in state.bus.fromTo)
+      return (
+        <View><Text>{state.bus.fromTo.from}</Text></View>
+      )
   }
 
-  if (state.bus.nextBuses.length) {
-    setLeftTime()
+
+  const setTimer = () => {
+    if (state.timer.ms) {
+      return (
+        <View>
+          <Text>{state.timer.ms.m}: {state.timer.ms.s}</Text>
+        </View>
+
+      )
+
+    }
+
+
+  }
+
+
+  const setBuses = () => {
+    return (
+      <View>{state.bus.nextBuses.map((bus, i) => {
+        return (
+          <View key={i}><Text>{bus.h}: {bus.m}</Text></View>
+        )
+      })}</View>
+    )
+
   }
 
   return (
-
-    <View style={styles.container}>
-      <Widget />
-      <NextBuses />
+    <View>
+      <Text>aaa</Text>
+      {setTimer()}
+      {setBus()}
+      {setBuses()}
     </View>
   );
-}
 
-
-
-
-HomeScreen.navigationOptions = {
-  header: null,
-  title: 'Home',
-};
-
-function DevelopmentModeNotice() {
-  if (__DEV__) {
-    const learnMoreButton = (
-      <Text onPress={handleLearnMorePress} style={styles.helpLinkText}>
-        Learn more
-      </Text>
-    );
-
-    return (
-      <Text style={styles.developmentModeText}>
-        Development mode is enabled: your app will be slower but you can use
-        useful development tools. {learnMoreButton}
-      </Text>
-    );
-  } else {
-    return (
-      <Text style={styles.developmentModeText}>
-        You are not in development mode: your app will run at full speed.
-      </Text>
-    );
-  }
 }
 
 function handleLearnMorePress() {
@@ -178,92 +175,3 @@ function handleHelpPress() {
     'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 14,
-    lineHeight: 19,
-    textAlign: 'center',
-  },
-  contentContainer: {
-    paddingTop: 30,
-  },
-  welcomeContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-  },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
-  },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
-  },
-  navigationFilename: {
-    marginTop: 5,
-  },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
-  },
-});

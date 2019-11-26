@@ -26,11 +26,12 @@ export default function App(props) {
   } else {
     return (
       <Provider>
-
         <View style={styles.container}>
           <Header />
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
+          <View style={styles.container2}>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            <AppNavigator />
+          </View>
         </View>
       </Provider>
     );
@@ -68,4 +69,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  container2: {
+    flex: 1,
+    backgroundColor: '#fff',
+    width: "90%"
+  }
 });
