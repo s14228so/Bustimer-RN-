@@ -66,11 +66,13 @@ export default function HomeScreen() {
       const bus = state.bus.nextBuses[0];
       let leftMinute, leftSecond;
       leftSecond = 60 - date.second - 1;
-      if (bus.h > date.hour) {
+      if (parseInt(bus.h) > date.hour) {
+
         leftMinute = ((bus.h - date.hour) * 60)
           - date.minute
           + bus.m - 1;
       } else {
+        console.log("else")
         leftMinute = bus.m - date.minute - 1;
       }
 
@@ -81,6 +83,7 @@ export default function HomeScreen() {
         s: leftSecond
       }
     }
+    console.log(leftTime)
 
     dispatch({ type: "COUNT_DOWN", payload: leftTime })
   }
@@ -122,7 +125,7 @@ export default function HomeScreen() {
   const setBus = () => {
     if ("from" in state.bus.fromTo)
       return (
-        <View><Text style={styles.textCenter}>{state.bus.fromTo.from}</Text></View>
+        <View style={styles.distination}><Text style={styles.textCenter}>{state.bus.fromTo.from === "sho" ? "湘南台" : "SFC"} ⇨ {state.bus.fromTo.from === "sho" ? "SFC" : "湘南台"} </Text></View>
       )
   }
 
@@ -130,12 +133,11 @@ export default function HomeScreen() {
   const setTimer = () => {
     if (state.timer.ms) {
       return (
-        <View>
+        <View style={styles.timer}>
           <Text style={styles.textCenter}>{state.timer.ms.m}: {state.timer.ms.s}</Text>
         </View>
 
       )
-
     }
 
 
@@ -144,19 +146,19 @@ export default function HomeScreen() {
 
   const setBuses = () => {
     return (
-      <View>{state.bus.nextBuses.map((bus, i) => {
+      <ScrollView style={styles.scroll}>{state.bus.nextBuses.map((bus, i) => {
         return (
-          <View key={i}><Text style={styles.textCenter}>{bus.h}: {bus.m}</Text></View>
+          <View style={styles.busItem} key={i}><Text style={styles.textCenter}>{bus.h}: {bus.m}</Text></View>
         )
-      })}</View>
+      })}</ScrollView>
     )
 
   }
 
   return (
-    <View >
-      {setTimer()}
+    <View style={styles.wrapper}>
       {setBus()}
+      {setTimer()}
       {setBuses()}
     </View>
   );
@@ -182,4 +184,29 @@ const styles = StyleSheet.create({
   textCenter: {
     textAlign: "center"
   },
+  wrapper: {
+    flexDirection: 'column',
+    justifyContent: "space-around",
+    flex: 1,
+  },
+  timer: {
+    height: 100,
+    lineHeight: 100,
+    backgroundColor: "yellow",
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignItems: 'center',
+  },
+  busItem: {
+    marginTop: 10
+  },
+  scroll: {
+    marginTop: 15
+  },
+  distination: {
+    backgroundColor: "grey",
+    opacity: 0.6,
+    padding: 50,
+  }
 });

@@ -72,6 +72,8 @@ const styles = StyleSheet.create({
   container2: {
     flex: 1,
     backgroundColor: '#fff',
-    width: "90%"
+    width: "90%",
+    marginLeft: "auto",
+    marginRight: "auto"
   }
 });
