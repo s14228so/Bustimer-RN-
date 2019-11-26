@@ -66,14 +66,15 @@ export default function HomeScreen() {
       const bus = state.bus.nextBuses[0];
       let leftMinute, leftSecond;
       leftSecond = 60 - date.second - 1;
-      if (parseInt(bus.h) > date.hour) {
+      const hour = parseInt(bus.h)
+      const min = parseInt(bus.m)
+      if (hour > date.hour) {
 
-        leftMinute = ((parseInt(bus.h) - date.hour) * 60)
+        leftMinute = ((hour - date.hour) * 60)
           - date.minute
-          + bus.m - 1;
+          + min - 1;
       } else {
-        console.log("else")
-        leftMinute = bus.m - date.minute - 1;
+        leftMinute = m - date.minute - 1;
       }
 
       leftMinute = String(leftMinute).length === 1 ? `0${leftMinute}` : leftMinute

@@ -65,21 +65,23 @@ export default function TujiScreen() {
     let leftTime;
     const date = makeDateObj(new Date())
     if (state.bus.nextBuses && state.bus.nextBuses.length) {
-      debugger
       const bus = state.bus.nextBuses[0];
       let leftMinute, leftSecond;
       leftSecond = 60 - date.second - 1;
-      if (parseInt(bus.h) > date.hour) {
-
-        leftMinute = ((parseInt(bus.h) - date.hour) * 60)
+      const hour = parseInt(bus.h)
+      const min = parseInt(bus.m)
+      if (hour > date.hour) {
+        leftMinute = ((hour - date.hour) * 60)
           - date.minute
-          + bus.m - 1;
+          + min - 1;
+
       } else {
-        leftMinute = bus.m - date.minute - 1;
+        leftMinute = min - date.minute - 1;
       }
 
       leftMinute = String(leftMinute).length === 1 ? `0${leftMinute}` : leftMinute
       leftSecond = String(leftSecond).length === 1 ? `0${leftSecond}` : leftSecond
+
       leftTime = {
         m: leftMinute,
         s: leftSecond
