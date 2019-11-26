@@ -146,11 +146,13 @@ export default function HomeScreen() {
 
   const setBuses = () => {
     return (
+      // <View style={styles.ListWrapper}>
       <ScrollView style={styles.scroll}>{state.bus.nextBuses.map((bus, i) => {
         return (
-          <View style={styles.busItem} key={i}><Text style={styles.textCenter}>{bus.h}: {bus.m}</Text></View>
+          <View style={styles.busItem} key={i}><Text style={styles.textLeft}>{bus.h}: {bus.m}</Text></View>
         )
       })}</ScrollView>
+      // </View>
     )
 
   }
@@ -159,6 +161,10 @@ export default function HomeScreen() {
     <View style={styles.wrapper}>
       {setBus()}
       {setTimer()}
+      <View style={styles.busItem}>
+        <Text style={{ fontSize: 18 }}>次のバス</Text>
+      </View>
+
       {setBuses()}
     </View>
   );
@@ -198,11 +204,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignItems: 'center',
   },
-  busItem: {
+  ListWrapper: {
     marginTop: 10
   },
+  textLeft: {
+    textAlign: "left"
+  },
+  busItem: {
+    marginTop: 10,
+    paddingLeft: 10
+  },
   scroll: {
-    marginTop: 15
+    marginTop: 15,
   },
   distination: {
     backgroundColor: "grey",
