@@ -1,5 +1,7 @@
 import * as WebBrowser from 'expo-web-browser';
 import React, { useState, useRef, useContext, useEffect } from 'react';
+import { NavigationEvents } from "react-navigation";
+
 
 import {
   Image,
@@ -163,6 +165,11 @@ export default function TujiScreen() {
     <View style={styles.wrapper}>
       {setBus()}
       {setTimer()}
+      <NavigationEvents
+        onWillFocus={payload => {
+          isFirstRef.current = true;
+        }}
+      />
       <View style={styles.busItem}>
         <Text style={{ fontSize: 18 }}>次のバス</Text>
       </View>
