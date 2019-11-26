@@ -34,7 +34,6 @@ export default function TujiScreen() {
 
     (async function loadData() {
       if (isFirstRef.current) {
-        console.log("初回だよ")
         await dataFetch()
         dispatch({ type: "SET_FROM_TO", payload: { from: "tuji", to: "sfc" } })
         setInterval(() => {
@@ -44,14 +43,14 @@ export default function TujiScreen() {
         }, 1000);
         isFirstRef.current = false;
       } else {
-        console.log("きた2")
         if (state.data.timeTable && state.data.holidays && state.timer.date) {
           setNextBuses()
           setCountDown()
         }
       }
       lastStateRef.current = count;
-    })();
+    }
+    )();
 
   }, [state.timer.date])
 
@@ -87,7 +86,6 @@ export default function TujiScreen() {
         s: leftSecond
       }
     }
-    console.log(leftTime)
 
     dispatch({ type: "COUNT_DOWN", payload: leftTime })
   }
@@ -202,6 +200,7 @@ const styles = StyleSheet.create({
   timer: {
     height: 100,
     lineHeight: 100,
+    marginTop: 10,
     backgroundColor: "yellow",
     flexDirection: 'column',
     justifyContent: 'center',

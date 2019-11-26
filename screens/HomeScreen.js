@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import React, { useState, useRef, useContext, useEffect } from 'react';
-
+import { NavigationEvents } from "react-navigation";
 import {
   Image,
   Platform,
@@ -17,7 +17,6 @@ export default function HomeScreen() {
   const { state, dispatch } = useContext(Store)
   const [isSetData, setData] = useState(0)
   const [count, setCount] = useState(0)
-
   const dataFetch = async () => {
     const timeTable = (await import('../api/timeTable.json')).default;
 
@@ -49,12 +48,19 @@ export default function HomeScreen() {
         }
       }
       lastStateRef.current = count;
-    })();
+    }
+    )();
 
   }, [state.timer.date])
 
 
 
+  useEffect(() => {
+    return () => {
+      console.log("バイバーイ")
+    };
+
+  }, [])
 
 
 
@@ -84,7 +90,6 @@ export default function HomeScreen() {
         s: leftSecond
       }
     }
-    console.log(leftTime)
 
     dispatch({ type: "COUNT_DOWN", payload: leftTime })
   }
@@ -165,7 +170,11 @@ export default function HomeScreen() {
       <View style={styles.busItem}>
         <Text style={{ fontSize: 18 }}>次のバス</Text>
       </View>
-
+      <NavigationEvents
+        onWillFocus={payload => {
+          isFirstRef.current = true;
+        }}
+      />
       {setBuses()}
     </View>
   );
@@ -199,6 +208,7 @@ const styles = StyleSheet.create({
   timer: {
     height: 100,
     lineHeight: 100,
+    marginTop: 10,
     backgroundColor: "yellow",
     flexDirection: 'column',
     justifyContent: 'center',
