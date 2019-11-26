@@ -68,7 +68,7 @@ export default function HomeScreen() {
       leftSecond = 60 - date.second - 1;
       if (parseInt(bus.h) > date.hour) {
 
-        leftMinute = ((bus.h - date.hour) * 60)
+        leftMinute = ((parseInt(bus.h) - date.hour) * 60)
           - date.minute
           + bus.m - 1;
       } else {

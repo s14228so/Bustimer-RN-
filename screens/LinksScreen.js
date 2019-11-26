@@ -34,6 +34,7 @@ export default function TujiScreen() {
 
     (async function loadData() {
       if (isFirstRef.current) {
+        console.log("初回だよ")
         await dataFetch()
         dispatch({ type: "SET_FROM_TO", payload: { from: "tuji", to: "sfc" } })
         setInterval(() => {
@@ -43,6 +44,7 @@ export default function TujiScreen() {
         }, 1000);
         isFirstRef.current = false;
       } else {
+        console.log("きた2")
         if (state.data.timeTable && state.data.holidays && state.timer.date) {
           setNextBuses()
           setCountDown()
@@ -63,16 +65,16 @@ export default function TujiScreen() {
     let leftTime;
     const date = makeDateObj(new Date())
     if (state.bus.nextBuses && state.bus.nextBuses.length) {
+      debugger
       const bus = state.bus.nextBuses[0];
       let leftMinute, leftSecond;
       leftSecond = 60 - date.second - 1;
       if (parseInt(bus.h) > date.hour) {
 
-        leftMinute = ((bus.h - date.hour) * 60)
+        leftMinute = ((parseInt(bus.h) - date.hour) * 60)
           - date.minute
           + bus.m - 1;
       } else {
-        console.log("else")
         leftMinute = bus.m - date.minute - 1;
       }
 
