@@ -122,7 +122,7 @@ export default function HomeScreen() {
   const setBus = () => {
     if ("from" in state.bus.fromTo)
       return (
-        <View><Text>{state.bus.fromTo.from}</Text></View>
+        <View><Text style={styles.textCenter}>{state.bus.fromTo.from}</Text></View>
       )
   }
 
@@ -131,7 +131,7 @@ export default function HomeScreen() {
     if (state.timer.ms) {
       return (
         <View>
-          <Text>{state.timer.ms.m}: {state.timer.ms.s}</Text>
+          <Text style={styles.textCenter}>{state.timer.ms.m}: {state.timer.ms.s}</Text>
         </View>
 
       )
@@ -146,7 +146,7 @@ export default function HomeScreen() {
     return (
       <View>{state.bus.nextBuses.map((bus, i) => {
         return (
-          <View key={i}><Text>{bus.h}: {bus.m}</Text></View>
+          <View key={i}><Text style={styles.textCenter}>{bus.h}: {bus.m}</Text></View>
         )
       })}</View>
     )
@@ -154,8 +154,7 @@ export default function HomeScreen() {
   }
 
   return (
-    <View>
-      <Text>aaa</Text>
+    <View >
       {setTimer()}
       {setBus()}
       {setBuses()}
@@ -175,3 +174,12 @@ function handleHelpPress() {
     'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
   );
 }
+
+
+
+
+const styles = StyleSheet.create({
+  textCenter: {
+    textAlign: "center"
+  },
+});
