@@ -21,7 +21,6 @@ export default class MyComponent extends React.Component {
                     title="Bustimer"
                 />
                 <Appbar.Action icon="account-arrow-left-outline" onPress={this._handleMore} />
-                <Appbar.Action icon="more-vert" onPress={this._handleMore} />
             </Appbar.Header>
         );
     }
