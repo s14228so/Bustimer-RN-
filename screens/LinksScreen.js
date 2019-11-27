@@ -1,7 +1,7 @@
 import * as WebBrowser from 'expo-web-browser';
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { NavigationEvents } from "react-navigation";
-import { Button, IconButton, Colors } from 'react-native-paper';
+import { IconButton, Colors } from 'react-native-paper';
 
 
 import {
