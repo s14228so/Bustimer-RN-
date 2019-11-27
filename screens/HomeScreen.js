@@ -186,7 +186,7 @@ export default function HomeScreen() {
                 <Text style={styles.busItemText}>{bus.rotary ? "ロータリー発" : ""}</Text>
               </View>
               <View>
-                <Text style={styles.busItemText}>{bus.vi1 ? "笹久保経由" : ""}</Text>
+                <Text style={styles.busItemText}>{bus.via ? "笹久保経由" : ""}</Text>
               </View>
               <Divider />
             </View>
