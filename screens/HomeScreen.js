@@ -1,7 +1,7 @@
 import * as WebBrowser from 'expo-web-browser';
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { NavigationEvents } from "react-navigation";
-import { Button, IconButton, Colors } from 'react-native-paper';
+import { Button, IconButton, Divider, Colors } from 'react-native-paper';
 import {
   Image,
   Platform,
@@ -169,7 +169,10 @@ export default function HomeScreen() {
       // <View style={styles.ListWrapper}>
       <ScrollView style={styles.scroll}>{state.bus.nextBuses.map((bus, i) => {
         return (
-          <View style={styles.busItem} key={i}><Text style={styles.textLeft}>{bus.h}: {bus.m}</Text></View>
+          <View style={styles.busItem} key={i}>
+            <Text style={styles.textLeft}>{bus.h}: {bus.m}</Text>
+            <Divider />
+          </View>
         )
       })}</ScrollView>
       // </View>

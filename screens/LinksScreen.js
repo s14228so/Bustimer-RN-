@@ -1,7 +1,7 @@
 import * as WebBrowser from 'expo-web-browser';
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { NavigationEvents } from "react-navigation";
-import { IconButton, Colors } from 'react-native-paper';
+import { IconButton, Divider, Colors } from 'react-native-paper';
 
 
 import {
@@ -129,9 +129,8 @@ export default function TujiScreen() {
   const setBus = () => {
     if ("from" in state.bus.fromTo)
       return (
-        <View style={styles.distination}><Text style={styles.textCenter}>{state.bus.fromTo.from === "tuji" ? "辻堂" : "SFC"}
-
-        </Text>
+        <View style={styles.distination}>
+          <Text style={styles.textCenter}>{state.bus.fromTo.from === "tuji" ? "辻堂" : "SFC"}</Text>
           <View style={styles.arrow}>
             <IconButton
               icon="play"
@@ -140,8 +139,10 @@ export default function TujiScreen() {
               onPress={() => dispatch({ type: "SET_FROM_TO", payload: { from: state.bus.fromTo.to, to: state.bus.fromTo.from } })}
             />
           </View>
-          <Text>
-            {state.bus.fromTo.from === "tuji" ? "SFC" : "辻堂"} </Text></View>
+          <Text style={styles.textCenter}>
+            {state.bus.fromTo.from === "tuji" ? "SFC" : "辻堂"}
+          </Text>
+        </View>
       )
   }
 
@@ -165,7 +166,11 @@ export default function TujiScreen() {
       // <View style={styles.ListWrapper}>
       <ScrollView style={styles.scroll}>{state.bus.nextBuses.map((bus, i) => {
         return (
-          <View style={styles.busItem} key={i}><Text style={styles.textLeft}>{bus.h}: {bus.m}</Text></View>
+          <View style={styles.busItem} key={i}>
+            <Text style={styles.textLeft}>{bus.h}: {bus.m}</Text>
+            <Divider />
+          </View>
+
         )
       })}</ScrollView>
       // </View>
