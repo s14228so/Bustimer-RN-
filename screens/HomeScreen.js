@@ -131,13 +131,11 @@ export default function HomeScreen() {
   const setBus = () => {
     if ("from" in state.bus.fromTo)
       return (
-
         <Surface style={styles.distination}>
           <View>
             <Text style={styles.distTitle}>{state.bus.fromTo.from === "sho" ? "湘南台" : "SFC"}
             </Text>
           </View>
-
           <View style={styles.arrow}>
             <IconButton
               icon="play"
@@ -176,10 +174,25 @@ export default function HomeScreen() {
       // <View style={styles.ListWrapper}>
       <ScrollView style={styles.scroll}>{state.bus.nextBuses.map((bus, i) => {
         return (
-          <View style={styles.busItem} key={i}>
-            <Text style={styles.textLeft}>{bus.h}: {bus.m}</Text>
+          <View>
+            <View style={styles.busItem} key={i}>
+              <View>
+                <Text style={styles.busItemText}>{bus.h}:{bus.m}</Text>
+              </View>
+              <View>
+                <Text style={styles.busItemText}>{bus.twin ? "ツインライナー" : ""}</Text>
+              </View>
+              <View>
+                <Text style={styles.busItemText}>{bus.rotary ? "ロータリー発" : ""}</Text>
+              </View>
+              <View>
+                <Text style={styles.busItemText}>{bus.vi1 ? "笹久保経由" : ""}</Text>
+              </View>
+              <Divider />
+            </View>
             <Divider />
           </View>
+
         )
       })}</ScrollView>
       // </View>
@@ -250,12 +263,19 @@ const styles = StyleSheet.create({
   ListWrapper: {
     marginTop: 10
   },
+  busItemText: {
+    marginRight: 10,
+    lineHeight: 20
+  },
   textLeft: {
     textAlign: "left"
   },
   busItem: {
+    height: 20,
     marginTop: 10,
-    paddingLeft: 10
+    paddingLeft: 10,
+    flexDirection: "row",
+    justifyContent: "flex-start"
   },
   scroll: {
     marginTop: 15,
@@ -275,8 +295,4 @@ const styles = StyleSheet.create({
   distTitle: {
     fontSize: 25
   },
-  arrow: {
-    marginLeft: 0,
-    marginRight: 0
-  }
 });

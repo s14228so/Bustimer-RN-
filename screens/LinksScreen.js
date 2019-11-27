@@ -148,6 +148,8 @@ export default function TujiScreen() {
   }
 
 
+
+
   const setTimer = () => {
     if (state.timer.ms) {
       return (
@@ -162,13 +164,28 @@ export default function TujiScreen() {
   }
 
 
+
   const setBuses = () => {
     return (
       // <View style={styles.ListWrapper}>
       <ScrollView style={styles.scroll}>{state.bus.nextBuses.map((bus, i) => {
         return (
-          <View style={styles.busItem} key={i}>
-            <Text style={styles.textLeft}>{bus.h}: {bus.m}</Text>
+          <View>
+            <View style={styles.busItem} key={i}>
+              <View>
+                <Text style={styles.busItemText}>{bus.h}:{bus.m}</Text>
+              </View>
+              <View>
+                <Text style={styles.busItemText}>{bus.twin ? "ツインライナー" : ""}</Text>
+              </View>
+              <View>
+                <Text style={styles.busItemText}>{bus.rotary ? "ロータリー発" : ""}</Text>
+              </View>
+              <View>
+                <Text style={styles.busItemText}>{bus.vi1 ? "笹久保経由" : ""}</Text>
+              </View>
+              <Divider />
+            </View>
             <Divider />
           </View>
 
@@ -178,6 +195,7 @@ export default function TujiScreen() {
     )
 
   }
+
 
   return (
     <View style={styles.wrapper}>
@@ -245,11 +263,18 @@ const styles = StyleSheet.create({
     textAlign: "left"
   },
   busItem: {
+    height: 20,
     marginTop: 10,
-    paddingLeft: 10
+    paddingLeft: 10,
+    flexDirection: "row",
+    justifyContent: "flex-start"
   },
   scroll: {
     marginTop: 15,
+  },
+  busItemText: {
+    marginRight: 10,
+    lineHeight: 20
   },
   distination: {
     backgroundColor: "#3498db",
@@ -266,8 +291,4 @@ const styles = StyleSheet.create({
   distTitle: {
     fontSize: 25
   },
-  arrow: {
-    marginLeft: 0,
-    marginRight: 0
-  }
 });
