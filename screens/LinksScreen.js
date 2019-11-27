@@ -135,7 +135,7 @@ export default function TujiScreen() {
           <View style={styles.arrow}>
             <IconButton
               icon="play"
-              color={Colors.red500}
+              color={Colors.white}
               size={24}
               onPress={() => dispatch({ type: "SET_FROM_TO", payload: { from: state.bus.fromTo.to, to: state.bus.fromTo.from } })}
             />
@@ -170,7 +170,7 @@ export default function TujiScreen() {
       // <View style={styles.ListWrapper}>
       <ScrollView style={styles.scroll}>{state.bus.nextBuses.map((bus, i) => {
         return (
-          <View>
+          <View key={i}>
             <View style={styles.busItem} key={i}>
               <View>
                 <Text style={styles.busItemText}>{bus.h}:{bus.m}</Text>

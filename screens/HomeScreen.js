@@ -139,7 +139,7 @@ export default function HomeScreen() {
           <View style={styles.arrow}>
             <IconButton
               icon="play"
-              color={Colors.red500}
+              color={Colors.white}
               size={24}
               onPress={() => dispatch({ type: "SET_FROM_TO", payload: { from: state.bus.fromTo.to, to: state.bus.fromTo.from } })}
             />
