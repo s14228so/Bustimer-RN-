@@ -1,13 +1,13 @@
 import * as WebBrowser from 'expo-web-browser';
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { NavigationEvents } from "react-navigation";
+import { Button, IconButton, Colors } from 'react-native-paper';
 import {
   Image,
   Platform,
   ScrollView,
   StyleSheet,
   Text,
-  Button,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -80,7 +80,7 @@ export default function HomeScreen() {
           - date.minute
           + min - 1;
       } else {
-        leftMinute = m - date.minute - 1;
+        leftMinute = min - date.minute - 1;
       }
 
       leftMinute = String(leftMinute).length === 1 ? `0${leftMinute}` : leftMinute
@@ -131,7 +131,21 @@ export default function HomeScreen() {
   const setBus = () => {
     if ("from" in state.bus.fromTo)
       return (
-        <View style={styles.distination}><Text style={styles.textCenter}>{state.bus.fromTo.from === "sho" ? "湘南台" : "SFC"} ⇨ {state.bus.fromTo.from === "sho" ? "SFC" : "湘南台"} </Text></View>
+        <View style={styles.distination}><Text style={styles.textCenter}>{state.bus.fromTo.from === "sho" ? "湘南台" : "SFC"}
+        </Text>
+          <View style={styles.arrow}>
+            <IconButton
+              icon="play"
+              color={Colors.red500}
+              size={24}
+              onPress={() => dispatch({ type: "SET_FROM_TO", payload: { from: state.bus.fromTo.to, to: state.bus.fromTo.from } })}
+            />
+          </View>
+
+          <Text style={styles.textCenter}>
+            {state.bus.fromTo.from === "sho" ? "SFC" : "湘南台"}
+          </Text>
+        </View>
       )
   }
 
@@ -175,6 +189,8 @@ export default function HomeScreen() {
           isFirstRef.current = true;
         }}
       />
+
+
       {setBuses()}
     </View>
   );
@@ -213,7 +229,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    alignItems: 'center',
   },
   ListWrapper: {
     marginTop: 10
@@ -232,5 +247,10 @@ const styles = StyleSheet.create({
     backgroundColor: "grey",
     opacity: 0.6,
     padding: 50,
+    textAlign: "center"
+  },
+  arrow: {
+    marginLeft: 0,
+    marginRight: 0
   }
 });

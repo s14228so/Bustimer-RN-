@@ -1,32 +1,24 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import * as React from 'react';
+import { Appbar } from 'react-native-paper';
 
-const Header = (props) => {
-    return (
-        <View style={styles.header}>
-            <Text style={styles.headerText}>Bustimer</Text>
-        </View>
-    );
-};
+export default class MyComponent extends React.Component {
+    _goBack = () => console.log('Went back');
 
-const styles = {
-    header: {
-        flex: 0.1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignItems: 'center',
-        width: "100%",
-        backgroundColor: "#8EB7E1",
-        textAlign: "center",
-        color: "#fff",
-    },
-    headerText: {
-        fontSize: 20,
-        marginTop: 30,
-        color: "#fff"
+    _handleSearch = () => console.log('Searching');
+
+    _handleMore = () => console.log('Shown more');
+
+    render() {
+        return (
+            <Appbar.Header>
+                <Appbar.BackAction
+                    onPress={this._goBack}
+                />
+                <Appbar.Content
+                    title="Bustimer"
+                />
+                <Appbar.Action icon="account-arrow-left-outline" onPress={this._handleMore} />
+            </Appbar.Header>
+        );
     }
-
 }
-export default Header;
-

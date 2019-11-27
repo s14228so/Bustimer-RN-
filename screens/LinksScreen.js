@@ -1,6 +1,7 @@
 import * as WebBrowser from 'expo-web-browser';
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { NavigationEvents } from "react-navigation";
+import { Button, IconButton, Colors } from 'react-native-paper';
 
 
 import {
@@ -9,7 +10,6 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  Button,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -129,7 +129,19 @@ export default function TujiScreen() {
   const setBus = () => {
     if ("from" in state.bus.fromTo)
       return (
-        <View style={styles.distination}><Text style={styles.textCenter}>{state.bus.fromTo.from === "tuji" ? "辻堂" : "SFC"} ⇨ {state.bus.fromTo.from === "tuji" ? "SFC" : "辻堂"} </Text></View>
+        <View style={styles.distination}><Text style={styles.textCenter}>{state.bus.fromTo.from === "tuji" ? "辻堂" : "SFC"}
+
+        </Text>
+          <View style={styles.arrow}>
+            <IconButton
+              icon="play"
+              color={Colors.red500}
+              size={24}
+              onPress={() => dispatch({ type: "SET_FROM_TO", payload: { from: state.bus.fromTo.to, to: state.bus.fromTo.from } })}
+            />
+          </View>
+          <Text>
+            {state.bus.fromTo.from === "tuji" ? "SFC" : "辻堂"} </Text></View>
       )
   }
 

@@ -5,12 +5,23 @@ import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider, Store } from './store'
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import Header from './components/layouts/Header';
 
 import AppNavigator from './navigation/AppNavigator';
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
+
+  const theme = {
+    ...DefaultTheme,
+    roundness: 2,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: '#3498db',
+      accent: '#f1c40f',
+    },
+  };
 
 
 
@@ -26,13 +37,15 @@ export default function App(props) {
   } else {
     return (
       <Provider>
-        <View style={styles.container}>
-          <Header />
-          <View style={styles.container2}>
-            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            <AppNavigator />
+        <PaperProvider theme={theme}>
+          <View style={styles.container}>
+            <Header />
+            <View style={styles.container2}>
+              {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+              <AppNavigator />
+            </View>
           </View>
-        </View>
+        </PaperProvider>
       </Provider>
     );
   }
