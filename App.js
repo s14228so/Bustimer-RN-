@@ -80,7 +80,7 @@ function handleFinishLoading(setLoadingComplete) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#EEEEEE",
   },
   container2: {
     flex: 1,

@@ -1,7 +1,7 @@
 import * as WebBrowser from 'expo-web-browser';
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { NavigationEvents } from "react-navigation";
-import { IconButton, Divider, Colors } from 'react-native-paper';
+import { IconButton, Divider, Colors, Surface } from 'react-native-paper';
 
 
 import {
@@ -129,8 +129,9 @@ export default function TujiScreen() {
   const setBus = () => {
     if ("from" in state.bus.fromTo)
       return (
-        <View style={styles.distination}>
-          <Text style={styles.textCenter}>{state.bus.fromTo.from === "tuji" ? "辻堂" : "SFC"}</Text>
+
+        <Surface style={styles.distination}>
+          <Text style={styles.distTitle}>{state.bus.fromTo.from === "tuji" ? "辻堂" : "SFC"}</Text>
           <View style={styles.arrow}>
             <IconButton
               icon="play"
@@ -139,10 +140,10 @@ export default function TujiScreen() {
               onPress={() => dispatch({ type: "SET_FROM_TO", payload: { from: state.bus.fromTo.to, to: state.bus.fromTo.from } })}
             />
           </View>
-          <Text style={styles.textCenter}>
+          <Text style={styles.distTitle}>
             {state.bus.fromTo.from === "tuji" ? "SFC" : "辻堂"}
           </Text>
-        </View>
+        </Surface>
       )
   }
 
@@ -151,7 +152,7 @@ export default function TujiScreen() {
     if (state.timer.ms) {
       return (
         <View style={styles.timer}>
-          <Text style={styles.textCenter}>{state.timer.ms.m}: {state.timer.ms.s}</Text>
+          <Text style={styles.timerText}>{state.timer.ms.m}: {state.timer.ms.s}</Text>
         </View>
 
       )
@@ -216,6 +217,11 @@ const styles = StyleSheet.create({
   textCenter: {
     textAlign: "center"
   },
+  timerText: {
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 30
+  },
   wrapper: {
     flexDirection: 'column',
     justifyContent: "space-around",
@@ -225,7 +231,8 @@ const styles = StyleSheet.create({
     height: 100,
     lineHeight: 100,
     marginTop: 10,
-    backgroundColor: "yellow",
+    opacity: 0.7,
+    backgroundColor: "grey",
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -245,8 +252,22 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   distination: {
-    backgroundColor: "grey",
-    opacity: 0.6,
-    padding: 50,
+    backgroundColor: "#3498db",
+    padding: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 5,
+    height: 100,
+    flexDirection: "row",
+    paddingLeft: 50,
+    paddingRight: 50,
+    justifyContent: "space-around"
+  },
+  distTitle: {
+    fontSize: 25
+  },
+  arrow: {
+    marginLeft: 0,
+    marginRight: 0
   }
 });

@@ -1,7 +1,7 @@
 import * as WebBrowser from 'expo-web-browser';
 import React, { useState, useRef, useContext, useEffect } from 'react';
-import { NavigationEvents } from "react-navigation";
-import { Button, IconButton, Divider, Colors } from 'react-native-paper';
+import { NavigationEvents, ThemeColors } from "react-navigation";
+import { Button, IconButton, Divider, Colors, Surface } from 'react-native-paper';
 import {
   Image,
   Platform,
@@ -131,8 +131,13 @@ export default function HomeScreen() {
   const setBus = () => {
     if ("from" in state.bus.fromTo)
       return (
-        <View style={styles.distination}><Text style={styles.textCenter}>{state.bus.fromTo.from === "sho" ? "湘南台" : "SFC"}
-        </Text>
+
+        <Surface style={styles.distination}>
+          <View>
+            <Text style={styles.distTitle}>{state.bus.fromTo.from === "sho" ? "湘南台" : "SFC"}
+            </Text>
+          </View>
+
           <View style={styles.arrow}>
             <IconButton
               icon="play"
@@ -141,11 +146,13 @@ export default function HomeScreen() {
               onPress={() => dispatch({ type: "SET_FROM_TO", payload: { from: state.bus.fromTo.to, to: state.bus.fromTo.from } })}
             />
           </View>
+          <View>
+            <Text style={styles.distTitle}>
+              {state.bus.fromTo.from === "sho" ? "SFC" : "湘南台"}
+            </Text>
+          </View>
 
-          <Text style={styles.textCenter}>
-            {state.bus.fromTo.from === "sho" ? "SFC" : "湘南台"}
-          </Text>
-        </View>
+        </Surface>
       )
   }
 
@@ -154,7 +161,7 @@ export default function HomeScreen() {
     if (state.timer.ms) {
       return (
         <View style={styles.timer}>
-          <Text style={styles.textCenter}>{state.timer.ms.m}: {state.timer.ms.s}</Text>
+          <Text style={styles.timerText}>{state.timer.ms.m}: {state.timer.ms.s}</Text>
         </View>
 
       )
@@ -185,7 +192,7 @@ export default function HomeScreen() {
       {setBus()}
       {setTimer()}
       <View style={styles.busItem}>
-        <Text style={{ fontSize: 18 }}>次のバス</Text>
+        <Text style={{ fontSize: 18, fontWeight: "bold" }}>次のバス</Text>
       </View>
       <NavigationEvents
         onWillFocus={payload => {
@@ -219,7 +226,13 @@ const styles = StyleSheet.create({
   textCenter: {
     textAlign: "center"
   },
+  timerText: {
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 30
+  },
   wrapper: {
+    marginTop: 0,
     flexDirection: 'column',
     justifyContent: "space-around",
     flex: 1,
@@ -228,7 +241,8 @@ const styles = StyleSheet.create({
     height: 100,
     lineHeight: 100,
     marginTop: 10,
-    backgroundColor: "yellow",
+    backgroundColor: "grey",
+    opacity: 0.7,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -247,10 +261,19 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   distination: {
-    backgroundColor: "grey",
-    opacity: 0.6,
-    padding: 50,
-    textAlign: "center"
+    backgroundColor: "#3498db",
+    padding: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 5,
+    height: 100,
+    flexDirection: "row",
+    paddingLeft: 50,
+    paddingRight: 50,
+    justifyContent: "space-around"
+  },
+  distTitle: {
+    fontSize: 25
   },
   arrow: {
     marginLeft: 0,
