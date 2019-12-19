@@ -2,9 +2,10 @@ import * as WebBrowser from 'expo-web-browser';
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { NavigationEvents } from "react-navigation";
 import { IconButton, Divider, Colors, Surface } from 'react-native-paper';
-
+import {MaterialCommunityIcons} from "@expo/vector-icons";
 
 import {
+  ImageBackground,
   Image,
   Platform,
   ScrollView,
@@ -125,42 +126,42 @@ export default function TujiScreen() {
     dispatch({ type: "SET_BUSES", payload: nextBuses })
   }
 
-
   const setBus = () => {
     if ("from" in state.bus.fromTo)
       return (
-
-        <Surface style={styles.distination}>
-          <Text style={styles.distTitle}>{state.bus.fromTo.from === "tuji" ? "辻堂" : "SFC"}</Text>
-          <View style={styles.arrow}>
+        <View style={styles.distination}>
+           <Text style={styles.preTitle}>from</Text>
+           <View>
+             <Text style={styles.distTitle}>{state.bus.fromTo.from === "tuji" ? "Tsujido" : "SFC"}
+             </Text>
+           </View>
+           <Text style={styles.preTitle}>to</Text>
+           <View style={styles.arrow}>
             <IconButton
-              icon="play"
-              color={Colors.white}
-              size={24}
+              icon="loop"
+              color="red"
+              size={32}
               onPress={() => dispatch({ type: "SET_FROM_TO", payload: { from: state.bus.fromTo.to, to: state.bus.fromTo.from } })}
             />
           </View>
-          <Text style={styles.distTitle}>
-            {state.bus.fromTo.from === "tuji" ? "SFC" : "辻堂"}
-          </Text>
-        </Surface>
+           <View>
+             <Text style={styles.distTitle}>
+               {state.bus.fromTo.from === "tuji" ? "SFC" : "Tsujido"}
+             </Text>
+           </View>
+         </View>
       )
   }
-
-
-
 
   const setTimer = () => {
     if (state.timer.ms) {
       return (
-        <View style={styles.timer}>
-          <Text style={styles.timerText}>{state.timer.ms.m}: {state.timer.ms.s}</Text>
-        </View>
-
+        <ImageBackground source={require('../assets/images/sfc.png')} style={styles.timer}>
+          <Text style={styles.timerText}>00 : {state.timer.ms.m}: {state.timer.ms.s}</Text>
+          <Text style={styles.date}>2019/12/19/ 15:00</Text>
+        </ImageBackground>
       )
     }
-
-
   }
 
 
@@ -169,26 +170,29 @@ export default function TujiScreen() {
     return (
       // <View style={styles.ListWrapper}>
       <ScrollView style={styles.scroll}>{state.bus.nextBuses.map((bus, i) => {
+        let buscolor = bus.twin ? "red" : "#FFCC00"
         return (
-          <View key={i}>
+          <View>
             <View style={styles.busItem} key={i}>
               <View>
-                <Text style={styles.busItemText}>{bus.h}:{bus.m}</Text>
+                <MaterialCommunityIcons name="bus-side" size={25} color={buscolor}/>
               </View>
               <View>
-                <Text style={styles.busItemText}>{bus.twin ? "ツインライナー" : ""}</Text>
+                <Text style={styles.busItemText}> {bus.h}:{bus.m}</Text>
               </View>
               <View>
-                <Text style={styles.busItemText}>{bus.rotary ? "ロータリー発" : ""}</Text>
+                <Text style={styles.busTypeText}>{bus.twin ? "ツインライナー" : ""}</Text>
               </View>
               <View>
-                <Text style={styles.busItemText}>{bus.vi1 ? "笹久保経由" : ""}</Text>
+                <Text style={styles.busTypeText}>{bus.rotary ? "ロータリー発" : ""}</Text>
+              </View>
+              <View>
+                <Text style={styles.busTypeText}>{bus.via ? "笹久保経由" : ""}</Text>
               </View>
               <Divider />
             </View>
             <Divider />
           </View>
-
         )
       })}</ScrollView>
       // </View>
@@ -199,21 +203,16 @@ export default function TujiScreen() {
 
   return (
     <View style={styles.wrapper}>
-      {setBus()}
       {setTimer()}
+      {setBus()}
       <NavigationEvents
         onWillFocus={payload => {
           isFirstRef.current = true;
         }}
       />
-      <View style={styles.busItem}>
-        <Text style={{ fontSize: 18 }}>次のバス</Text>
-      </View>
-
       {setBuses()}
     </View>
   );
-
 }
 
 function handleLearnMorePress() {
@@ -230,65 +229,87 @@ function handleHelpPress() {
 
 
 
-
 const styles = StyleSheet.create({
   textCenter: {
     textAlign: "center"
   },
-  timerText: {
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 30
-  },
   wrapper: {
+    marginTop: 0,
     flexDirection: 'column',
     justifyContent: "space-around",
     flex: 1,
   },
+  backgroundImage: {
+    height: 170,
+    flex: 1,
+  },
   timer: {
-    height: 100,
+    height: 170,
     lineHeight: 100,
-    marginTop: 10,
-    opacity: 0.7,
-    backgroundColor: "grey",
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    alignItems: 'center',
+  },
+  timerText: {
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 45,
+    color: "#fff",
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  },
+  date: {
+    marginTop:10,
+    textAlign: "center",
+    fontSize: 20,
+    opacity: 0.8,
+    color: "#fff",
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
   },
   ListWrapper: {
     marginTop: 10
   },
-  textLeft: {
-    textAlign: "left"
-  },
   busItem: {
-    height: 20,
+    height: 35,
     marginTop: 10,
     paddingLeft: 10,
     flexDirection: "row",
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
+  },
+  busItemText: {
+    marginLeft: 10,
+    marginRight: 10,
+    lineHeight: 25,
+    fontSize: 20,
+  },
+  busTypeText: {
+    lineHeight: 28,
+    fontSize: 15,
+  },
+  textLeft: {
+    textAlign: "left"
   },
   scroll: {
     marginTop: 15,
   },
-  busItemText: {
-    marginRight: 10,
-    lineHeight: 20
-  },
   distination: {
-    backgroundColor: "#3498db",
     padding: 8,
     alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 5,
-    height: 100,
-    flexDirection: "row",
-    paddingLeft: 50,
-    paddingRight: 50,
+    height: 170,
     justifyContent: "space-around"
   },
   distTitle: {
-    fontSize: 25
+    fontSize: 40
   },
+  preTitle: {
+    fontSize: 15,
+  },
+  arrow: {
+    position: "absolute",
+    right: 15,
+    top: 60
+  }
 });
