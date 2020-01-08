@@ -6,7 +6,6 @@ const timer = (state = {}, action) => {
             return { ...state, ms: action.payload }
         case "SET_DATE":
             return { ...state, date: action.payload }
-        // = { date: state. + action.payload }
     }
     return state
 }

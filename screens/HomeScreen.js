@@ -1,17 +1,14 @@
 import * as WebBrowser from 'expo-web-browser';
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { NavigationEvents, ThemeColors } from "react-navigation";
-import {Button, IconButton, Divider, Colors, Surface } from 'react-native-paper';
-import {MaterialCommunityIcons} from "@expo/vector-icons";
+import { Button, IconButton, Divider, Colors, Surface } from 'react-native-paper';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   ImageBackground,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
-  SafeAreaView 
 } from 'react-native';
 import { Provider, Store } from '../store'
 import makeDateObj from "../helpers/dateFormatter"
@@ -68,7 +65,7 @@ export default function HomeScreen() {
   const setCountDown = () => {
     let leftTime;
     const date = makeDateObj(new Date())
-    if (state.bus.nextBuses && state.bus.nextBuses.length) {
+    if (state.bus.nextBuses.length) {
       const bus = state.bus.nextBuses[0];
       let leftMinute, leftSecond;
       leftSecond = 60 - date.second - 1;
@@ -96,7 +93,7 @@ export default function HomeScreen() {
 
   const setNextBuses = () => {
 
-    const { hour, minute, date, hourStr, minuteStr, secondStr, monthStr, dayStr, dayOfWeek } = state.timer.date
+    const { hour, minute, monthStr, dayStr, dayOfWeek } = state.timer.date
     const { holidays, timeTable } = state.data
 
     const { to, from } = state.bus.fromTo
@@ -129,16 +126,16 @@ export default function HomeScreen() {
 
 
   const setBus = () => {
-    if ("from" in state.bus.fromTo)
+    if (state.bus.fromTo.from)
       return (
         <View style={styles.distination}>
-           <Text style={styles.preTitle}>from</Text>
-           <View>
-             <Text style={styles.distTitle}>{state.bus.fromTo.from === "sho" ? "Shonandai" : "SFC"}
-             </Text>
-           </View>
-           <Text style={styles.preTitle}>to</Text>
-           <View style={styles.arrow}>
+          <Text style={styles.preTitle}>from</Text>
+          <View>
+            <Text style={styles.distTitle}>{state.bus.fromTo.from === "sho" ? "Shonandai" : "SFC"}
+            </Text>
+          </View>
+          <Text style={styles.preTitle}>to</Text>
+          <View style={styles.arrow}>
             <IconButton
               icon="loop"
               color="red"
@@ -146,12 +143,12 @@ export default function HomeScreen() {
               onPress={() => dispatch({ type: "SET_FROM_TO", payload: { from: state.bus.fromTo.to, to: state.bus.fromTo.from } })}
             />
           </View>
-           <View>
-             <Text style={styles.distTitle}>
-               {state.bus.fromTo.from === "sho" ? "SFC" : "Shonandai"}
-             </Text>
-           </View>
-         </View>
+          <View>
+            <Text style={styles.distTitle}>
+              {state.bus.fromTo.to === "sho" ? "Shonandai" : "SFC"}
+            </Text>
+          </View>
+        </View>
       )
   }
 
@@ -164,7 +161,14 @@ export default function HomeScreen() {
           <Text style={styles.date}>2019/12/19/ 15:00</Text>
         </ImageBackground>
       )
+    } else {
+      return (
+        <ImageBackground source={require('../assets/images/sfc.png')} style={styles.timer}>
+          <Text style={styles.date}>本日のバスは終了ました</Text>
+        </ImageBackground>
+      )
     }
+
   }
 
 
@@ -177,7 +181,7 @@ export default function HomeScreen() {
           <View>
             <View style={styles.busItem} key={i}>
               <View>
-                <MaterialCommunityIcons name="bus-side" size={25} color={buscolor}/>
+                <MaterialCommunityIcons name="bus-side" size={25} color={buscolor} />
               </View>
               <View>
                 <Text style={styles.busItemText}> {bus.h}:{bus.m}</Text>
@@ -207,8 +211,12 @@ export default function HomeScreen() {
       {setTimer()}
       {setBus()}
       <NavigationEvents
-        onWillFocus={payload => {
+        onWillFocus={_ => {
           isFirstRef.current = true;
+        }}
+        onDidBlur={_ => {
+          dispatch({ type: "COUNT_DOWN", payload: null })
+          dispatch({ type: "SET_FROM_TO", payload: { from: null, to: null } })
         }}
       />
       {setBuses()}
@@ -256,17 +264,17 @@ const styles = StyleSheet.create({
     fontSize: 45,
     color: "#fff",
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
-    textShadowOffset: {width: -1, height: 1},
+    textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10
   },
   date: {
-    marginTop:10,
+    marginTop: 10,
     textAlign: "center",
     fontSize: 20,
     opacity: 0.8,
     color: "#fff",
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
-    textShadowOffset: {width: -1, height: 1},
+    textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10
   },
   ListWrapper: {
