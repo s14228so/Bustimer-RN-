@@ -14,19 +14,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Provider, Store } from '../store'
+import { Store } from '../store'
 import makeDateObj from "../helpers/dateFormatter"
 export default function TujiScreen() {
   const { state, dispatch } = useContext(Store)
   const [count, setCount] = useState(0)
 
-  const dataFetch = async () => {
-    const timeTable = (await import('../api/timeTable.json')).default;
-
-    dispatch({ type: "SET_TIMETABLE", payload: timeTable })
-    const holidays = (await import('../api/holidays.json')).default;
-    dispatch({ type: "SET_HOLIDAYS", payload: holidays })
-  }
 
   const isFirstRef = useRef(true);
   // 前回のステートも覚えておく
@@ -36,13 +29,20 @@ export default function TujiScreen() {
 
     (async function loadData() {
       if (isFirstRef.current) {
-        await dataFetch()
+        const timeTable = (await import('../api/timeTable.json')).default;
+        dispatch({ type: "SET_TIMETABLE", payload: timeTable })
+
+        const holidays = (await import('../api/holidays.json')).default;
+        dispatch({ type: "SET_HOLIDAYS", payload: holidays })
+
         dispatch({ type: "SET_FROM_TO", payload: { from: "tuji", to: "sfc" } })
+
         setInterval(() => {
           const date = makeDateObj(new Date())
           dispatch({ type: 'SET_DATE', payload: date })
           setCount(count + 1)
         }, 1000);
+
         isFirstRef.current = false;
       } else {
         if (state.data.timeTable && state.data.holidays && state.timer.date) {

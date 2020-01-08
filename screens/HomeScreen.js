@@ -14,15 +14,7 @@ import { Provider, Store } from '../store'
 import makeDateObj from "../helpers/dateFormatter"
 export default function HomeScreen() {
   const { state, dispatch } = useContext(Store)
-  const [isSetData, setData] = useState(0)
   const [count, setCount] = useState(0)
-  const dataFetch = async () => {
-    const timeTable = (await import('../api/timeTable.json')).default;
-
-    dispatch({ type: "SET_TIMETABLE", payload: timeTable })
-    const holidays = (await import('../api/holidays.json')).default;
-    dispatch({ type: "SET_HOLIDAYS", payload: holidays })
-  }
 
   const isFirstRef = useRef(true);
   // 前回のステートも覚えておく
@@ -32,7 +24,11 @@ export default function HomeScreen() {
 
     (async function loadData() {
       if (isFirstRef.current) {
-        await dataFetch()
+        const timeTable = (await import('../api/timeTable.json')).default;
+        dispatch({ type: "SET_TIMETABLE", payload: timeTable })
+        const holidays = (await import('../api/holidays.json')).default;
+        dispatch({ type: "SET_HOLIDAYS", payload: holidays })
+
         dispatch({ type: "SET_FROM_TO", payload: { from: "sho", to: "sfc" } })
 
         setInterval(() => {
