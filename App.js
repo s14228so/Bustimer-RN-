@@ -2,7 +2,7 @@ import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View,SafeAreaView, ImageBackground} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider, Store } from './store'
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
@@ -23,9 +23,6 @@ export default function App(props) {
     },
   };
 
-
-
-
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return (
       <AppLoading
@@ -38,8 +35,10 @@ export default function App(props) {
     return (
       <Provider>
         <PaperProvider theme={theme}>
+        {/* <SafeAreaView style={styles.header}>
+        </SafeAreaView> */}
           <View style={styles.container}>
-            <Header />
+            {/* <Header /> */}
             <View style={styles.container2}>
               {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
               <AppNavigator />
@@ -78,6 +77,9 @@ function handleFinishLoading(setLoadingComplete) {
 }
 
 const styles = StyleSheet.create({
+  header: {
+   backgroundColor: "#3498db"
+  },
   container: {
     flex: 1,
     backgroundColor: "#EEEEEE",
@@ -85,7 +87,7 @@ const styles = StyleSheet.create({
   container2: {
     flex: 1,
     backgroundColor: '#fff',
-    width: "90%",
+    width: "100%",
     marginLeft: "auto",
     marginRight: "auto"
   }
