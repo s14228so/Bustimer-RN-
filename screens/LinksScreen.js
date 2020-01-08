@@ -45,7 +45,7 @@ export default function TujiScreen() {
 
         isFirstRef.current = false;
       } else {
-        if (state.data.timeTable && state.data.holidays && state.timer.date) {
+        if (state.bus.fromTo.from && state.data.timeTable && state.data.holidays && state.timer.date) {
           setNextBuses()
           setCountDown()
         }
@@ -97,7 +97,6 @@ export default function TujiScreen() {
     const { holidays, timeTable } = state.data
 
     const { to, from } = state.bus.fromTo
-
 
     const isHoliday = (holidays && (monthStr + "-" + dayStr) in holidays) || dayOfWeek === 0;
     const todayData = isHoliday
@@ -216,7 +215,8 @@ export default function TujiScreen() {
         }}
         onDidBlur={_ => {
           dispatch({ type: "COUNT_DOWN", payload: null });
-          dispatch({ type: "SET_FROM_TO", payload: { from: null, to: null } })
+          dispatch({ type: "SET_FROM_TO", payload: { from: "sho", to: "sfc" } })
+
         }}
       />
       {setBuses()}

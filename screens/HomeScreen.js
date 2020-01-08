@@ -38,7 +38,7 @@ export default function HomeScreen() {
         }, 1000);
         isFirstRef.current = false;
       } else {
-        if (state.data.timeTable && state.data.holidays && state.timer.date) {
+        if (state.bus.fromTo.from && state.data.timeTable && state.data.holidays && state.timer.date) {
           setNextBuses()
           setCountDown()
         }
@@ -212,7 +212,7 @@ export default function HomeScreen() {
         }}
         onDidBlur={_ => {
           dispatch({ type: "COUNT_DOWN", payload: null })
-          dispatch({ type: "SET_FROM_TO", payload: { from: null, to: null } })
+          dispatch({ type: "SET_FROM_TO", payload: { from: "tuji", to: "sfc" } })
         }}
       />
       {setBuses()}
