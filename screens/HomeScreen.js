@@ -35,6 +35,7 @@ export default function HomeScreen() {
       if (isFirstRef.current) {
         await dataFetch()
         dispatch({ type: "SET_FROM_TO", payload: { from: "sho", to: "sfc" } })
+
         setInterval(() => {
           const date = makeDateObj(new Date())
           dispatch({ type: 'SET_DATE', payload: date })
