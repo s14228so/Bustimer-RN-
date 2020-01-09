@@ -14,7 +14,8 @@ const initialState = {
     timer: {
         count: 0,
         date: {},
-        ms: {}
+        ms: {
+        }
     },
     data: {
         timeTable: null,

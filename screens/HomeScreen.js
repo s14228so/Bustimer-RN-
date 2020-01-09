@@ -154,7 +154,8 @@ export default function HomeScreen() {
 
 
   const setTimer = () => {
-    if (state.timer.ms) {
+    console.log(state.timer.ms)
+    if (state.timer.ms.s) {
       return (
         <ImageBackground source={require('../assets/images/sfc.png')} style={styles.timer}>
           <Text style={styles.timerText}>00 : {state.timer.ms.m}: {state.timer.ms.s}</Text>
