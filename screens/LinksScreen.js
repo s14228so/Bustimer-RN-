@@ -176,8 +176,8 @@ export default function TujiScreen() {
       <ScrollView style={styles.scroll}>{state.bus.nextBuses.map((bus, i) => {
         let buscolor = bus.twin ? "red" : "#FFCC00"
         return (
-          <View>
-            <View style={styles.busItem} key={i}>
+          <View key={i}>
+            <View style={styles.busItem} >
               <View>
                 <MaterialCommunityIcons name="bus-side" size={25} color={buscolor} />
               </View>
