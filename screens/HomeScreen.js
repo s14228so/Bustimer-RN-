@@ -30,6 +30,7 @@ export default function HomeScreen() {
         dispatch({ type: "SET_HOLIDAYS", payload: holidays })
 
         dispatch({ type: "SET_FROM_TO", payload: { from: "sho", to: "sfc" } })
+        console.log("first")
 
         setInterval(() => {
           const date = makeDateObj(new Date())
@@ -136,7 +137,10 @@ export default function HomeScreen() {
               icon="loop"
               color="red"
               size={32}
-              onPress={() => dispatch({ type: "SET_FROM_TO", payload: { from: state.bus.fromTo.to, to: state.bus.fromTo.from } })}
+              onPress={() => {
+                dispatch({ type: "SET_FROM_TO", payload: { from: state.bus.fromTo.to, to: state.bus.fromTo.from } });
+              }
+              }
             />
           </View>
           <View>
@@ -174,8 +178,8 @@ export default function HomeScreen() {
       <ScrollView style={styles.scroll}>{state.bus.nextBuses.map((bus, i) => {
         let buscolor = bus.twin ? "red" : "#FFCC00"
         return (
-          <View>
-            <View style={styles.busItem} key={i}>
+          <View key={i}>
+            <View style={styles.busItem} >
               <View>
                 <MaterialCommunityIcons name="bus-side" size={25} color={buscolor} />
               </View>
@@ -211,7 +215,6 @@ export default function HomeScreen() {
           isFirstRef.current = true;
         }}
         onDidBlur={_ => {
-          dispatch({ type: "COUNT_DOWN", payload: null })
           dispatch({ type: "SET_FROM_TO", payload: { from: "tuji", to: "sfc" } })
         }}
       />

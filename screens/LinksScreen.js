@@ -214,9 +214,7 @@ export default function TujiScreen() {
           isFirstRef.current = true;
         }}
         onDidBlur={_ => {
-          dispatch({ type: "COUNT_DOWN", payload: null });
           dispatch({ type: "SET_FROM_TO", payload: { from: "sho", to: "sfc" } })
-
         }}
       />
       {setBuses()}
