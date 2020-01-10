@@ -7,11 +7,11 @@ import { View, Text } from 'react-native';
 const Destination = ({ dest, change }) => {
 
     return (
-        <div style={styles.flex}>
-            <span>{makeDistStr(dest.from)}</span>
+        <View style={styles.flex}>
+            <Text>{makeDistStr(dest.from)}</Text>
             <ChangeButton change={change} />
-            <span>{makeDistStr(dest.to)}</span>
-        </div>
+            <Text>{makeDistStr(dest.to)}</Text>
+        </View>
 
     )
 }
