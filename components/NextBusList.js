@@ -1,6 +1,7 @@
 import React, { useEffect } from "react"
-import { View, Text } from 'react-native';
-
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Button, IconButton, Divider, Colors, Surface } from 'react-native-paper';
 
 const NextBusList = ({ nextBuses }) => {
 
@@ -9,45 +10,85 @@ const NextBusList = ({ nextBuses }) => {
             <Text>次のバス</Text>
             <Text>  {!nextBuses.length ? "本日のバスは終了しました" : ""}</Text>
 
-            <View style={styles.list}>
+            <ScrollView style={styles.scroll}>
                 {
                     nextBuses.map((bus, i) => {
+                        let buscolor = bus.twin ? "red" : "#FFCC00"
                         return (
                             <View key={i}>
-                                <Text>{bus.twin ? "ツインライナー" : ""}</Text>
-                                <Text>  {bus.rotary ? "ロータリー発" : ""}</Text>
-                                <Text> {bus.via ? "笹久保経由" : ""}</Text>
-                                <Text> {String(bus.h).length === 1 ? `0${bus.h}` : bus.h} : {String(bus.m).length === 1 ? `0${bus.m}` : bus.m}</Text>
+                                <View style={styles.busItem} >
+                                    <View>
+                                        <MaterialCommunityIcons name="bus-side" size={25} color={buscolor} />
+                                    </View>
+                                    <View>
+                                        <Text style={styles.busItemText}> {String(bus.h).length === 1 ? `0${bus.h}` : bus.h} : {String(bus.m).length === 1 ? `0${bus.m}` : bus.m}</Text>
+                                    </View>
+                                    <View>
+                                        <Text style={styles.busTypeText}>{bus.twin ? "ツインライナー" : ""}</Text>
+                                    </View>
+                                    <View>
+                                        <Text style={styles.busTypeText}>{bus.rotary ? "ロータリー発" : ""}</Text>
+                                    </View>
+                                    <View>
+                                        <Text style={styles.busTypeText}>{bus.via ? "笹久保経由" : ""}</Text>
+                                    </View>
+                                    <Divider />
+                                </View>
+                                <Divider />
                             </View>
+                            //     <View key={i}>
+                            //         <Text>{bus.twin ? "ツインライナー" : ""}</Text>
+                            //         <Text>  {bus.rotary ? "ロータリー発" : ""}</Text>
+                            //         <Text> {bus.via ? "笹久保経由" : ""}</Text>
+                            //         <Text> {String(bus.h).length === 1 ? `0${bus.h}` : bus.h} : {String(bus.m).length === 1 ? `0${bus.m}` : bus.m}</Text>
+                            //     </View>
                         )
                     })
 
                 }
-            </View>
+            </ScrollView>
         </View>
     )
 }
 
 
-
-const styles = {
-    wrapper: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignItems: 'center',
-        width: "100%",
-        backgroundColor: "#a2b9bc",
-        textAlign: "center",
-        color: "#fff",
+const styles = StyleSheet.create({
+    busItem: {
+        height: 35,
+        marginTop: 10,
+        paddingLeft: 10,
+        flexDirection: "row",
+        justifyContent: "flex-start",
     },
-    headerText: {
+    busItemText: {
+        marginLeft: 10,
+        marginRight: 10,
+        lineHeight: 25,
         fontSize: 20,
-        marginTop: 30,
-        color: "#000"
-    }
+    },
+    busTypeText: {
+        lineHeight: 28,
+        fontSize: 15,
+    },
+    textLeft: {
+        textAlign: "left"
+    },
+    scroll: {
+        marginTop: 15,
+    },
+    distination: {
+        padding: 8,
+        alignItems: 'center',
+        height: 170,
+        justifyContent: "space-around"
+    },
+    distTitle: {
+        fontSize: 40
+    },
+    preTitle: {
+        fontSize: 15,
+    },
+})
 
-}
 export default NextBusList;
 
