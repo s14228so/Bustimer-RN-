@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 
-import { Text } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
 
 
 const Timer = ({ now, timer, nextBuses }) => {
@@ -8,7 +8,7 @@ const Timer = ({ now, timer, nextBuses }) => {
     const renderTimer = () => {
         if (nextBuses.length) {
             return (
-                <Text> {timer.leftMinute + ":" + ('00' + timer.leftSecond).slice(-2)}</Text>
+                <Text style={styles.timerText}> {timer.leftMinute + ":" + ('00' + timer.leftSecond).slice(-2)}</Text>
             )
         } else {
             return <Text>Loading...</Text>
@@ -20,24 +20,16 @@ const Timer = ({ now, timer, nextBuses }) => {
     )
 }
 
-const styles = {
-    wrapper: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignItems: 'center',
-        width: "100%",
-        backgroundColor: "grey",
+const styles = StyleSheet.create({
+    timerText: {
         textAlign: "center",
+        fontWeight: "bold",
+        fontSize: 45,
         color: "#fff",
+        textShadowColor: 'rgba(0, 0, 0, 0.75)',
+        textShadowOffset: { width: -1, height: 1 },
+        textShadowRadius: 10
     },
-    headerText: {
-        fontSize: 20,
-        marginTop: 30,
-        color: "#000"
-    }
-
-}
+})
 export default Timer;
 

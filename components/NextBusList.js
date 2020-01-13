@@ -7,7 +7,6 @@ const NextBusList = ({ nextBuses }) => {
 
     return (
         <View>
-            <Text>次のバス</Text>
             <Text>  {!nextBuses.length ? "本日のバスは終了しました" : ""}</Text>
 
             <ScrollView style={styles.scroll}>

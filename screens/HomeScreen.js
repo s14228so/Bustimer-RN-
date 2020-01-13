@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, ImageBackground } from 'react-native'
 import NextBusList from "../components/NextBusList"
 import Destination from "../components/Destination"
 import Timer from "../components/Timer"
@@ -78,7 +78,10 @@ const HomeScreen = () => {
 
 
   return (<View>
-    <Timer now={now} timer={timer} nextBuses={nextBuses} />
+    <ImageBackground source={require('../assets/images/sfc.png')} style={styles.timer}>
+      <Timer now={now} timer={timer} nextBuses={nextBuses} />
+    </ImageBackground>
+
     <Destination dest={dest} change={change} />
     <NextBusList nextBuses={nextBuses} />
   </View>)
