@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { View, StyleSheet, ImageBackground } from 'react-native'
+import { Store } from "../store"
 import NextBusList from "../components/NextBusList"
 import Destination from "../components/Destination"
 import Timer from "../components/Timer"
@@ -8,9 +9,10 @@ import timeTable from "../static/timeTable.json"
 
 
 const HomeScreen = () => {
+  const { state, dispatch } = useContext(Store)
 
   const [now, setNow] = useState(makeDate(new Date()));
-  const [dest, setDest] = useState({ to: "sho", from: "sfc" })
+  const [dest, setDest] = useState({ to: state.setting, from: "sfc" })
   const [nextBuses, setNextBuses] = useState([])
   const [timer, setTimer] = useState({ leftMinute: 0, leftSecond: 0 })
   const change = () => {

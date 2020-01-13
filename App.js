@@ -2,7 +2,7 @@ import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
-import { Platform, StatusBar, StyleSheet, View,SafeAreaView, ImageBackground} from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, SafeAreaView, ImageBackground } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider, Store } from './store'
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
@@ -12,6 +12,7 @@ import AppNavigator from './navigation/AppNavigator';
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
+  const [defaultDest, setDefault] = useState("sho")
 
   const theme = {
     ...DefaultTheme,
@@ -35,13 +36,13 @@ export default function App(props) {
     return (
       <Provider>
         <PaperProvider theme={theme}>
-        {/* <SafeAreaView style={styles.header}>
+          {/* <SafeAreaView style={styles.header}>
         </SafeAreaView> */}
           <View style={styles.container}>
             {/* <Header /> */}
             <View style={styles.container2}>
               {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-              <AppNavigator />
+              <AppNavigator defaultDest={defaultDest} />
             </View>
           </View>
         </PaperProvider>
@@ -78,7 +79,7 @@ function handleFinishLoading(setLoadingComplete) {
 
 const styles = StyleSheet.create({
   header: {
-   backgroundColor: "#3498db"
+    backgroundColor: "#3498db"
   },
   container: {
     flex: 1,

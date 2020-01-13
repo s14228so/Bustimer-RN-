@@ -1,12 +1,8 @@
 import { combineReducers } from "redux"
-import bus from "./bus"
-import timer from "./timer"
-import data from "./data"
+import setting from "./setting"
 
 const rootReducer = combineReducers({
-    bus,
-    timer,
-    data,
+    setting
 })
 
 export default rootReducer

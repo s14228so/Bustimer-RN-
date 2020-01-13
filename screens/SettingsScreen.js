@@ -1,14 +1,21 @@
-import React from 'react';
-import { ExpoConfigView } from '@expo/samples';
+import React, { useContext } from 'react';
+import { View } from 'react-native';
+import { ToggleButton } from 'react-native-paper';
+import { Store } from "../sえtore"
 
-export default function SettingsScreen() {
-  /**
-   * Go ahead and delete ExpoConfigView and replace it with your content;
-   * we just wanted to give you a quick view of your config.
-   */
-  return <ExpoConfigView />;
+
+const Setting = () => {
+  const { state, dispatch } = useContext(Store)
+
+  return (
+    <ToggleButton.Row
+      onValueChange={value => dispatch({ type: "SET_DEST", value })}
+      value={state.setting}
+    >
+      <ToggleButton icon="format-align-left" value="sho" />
+      <ToggleButton icon="format-align-right" value="tuji" />
+    </ToggleButton.Row>
+  )
+
 }
-
-SettingsScreen.navigationOptions = {
-  title: 'app.json',
-};
+export default Setting
