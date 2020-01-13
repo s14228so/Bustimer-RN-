@@ -1,4 +1,5 @@
 const setting = (state = {}, action) => {
+    console.log(action)
     switch (action.type) {
         case "SET_DEST":
             return action.payload

@@ -1,15 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { View } from 'react-native';
 import { ToggleButton } from 'react-native-paper';
-import { Store } from "../sえtore"
+import { Store } from "../store"
 
 
 const Setting = () => {
   const { state, dispatch } = useContext(Store)
 
+  console.log(state.setting)
+
+  const _storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem('destination', value);
+    } catch (error) {
+      // Error saving data
+    }
+  }
+
   return (
     <ToggleButton.Row
-      onValueChange={value => dispatch({ type: "SET_DEST", value })}
+      onValueChange={value => _storeData(value)}
       value={state.setting}
     >
       <ToggleButton icon="format-align-left" value="sho" />
