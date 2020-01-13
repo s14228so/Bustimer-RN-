@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react"
+import { View, Text } from 'react-native'
 import NextBusList from "../components/NextBusList"
 import Destination from "../components/Destination"
 import Timer from "../components/Timer"
 import makeDate from "../helpers/dateFormatter"
-import timeTable from "../static/timeTable"
+import timeTable from "../static/timeTable.json"
 
 
 const HomeScreen = () => {
@@ -15,10 +16,6 @@ const HomeScreen = () => {
   const change = () => {
     setDest({ from: dest.to, to: dest.from })
   }
-
-  // 0だよは来てた
-  //次のバスは同期できてなかったし、-1:41みたいになってた
-  //リロードしたら直る
 
 
   useEffect(() => {
@@ -69,7 +66,6 @@ const HomeScreen = () => {
         )
       )
     });
-    console.log()
 
     setNextBuses(nextBuses)
   }
@@ -98,7 +94,6 @@ const HomeScreen = () => {
 const styles = {
   container: {
     width: "80%",
-    margin: "0 auto",
     textAlign: "center"
   }
 }

@@ -1,5 +1,5 @@
 import React from "react"
-import ChangeButton from "../components/ChangeButton"
+import ChangeButton from "./ChangeButton"
 import makeDistStr from "../helpers/busFormatter"
 
 import { View, Text } from 'react-native';

@@ -19,7 +19,6 @@ const Timer = ({ now, timer, nextBuses }) => {
         renderTimer()
     )
 }
-export default Timer
 
 const styles = {
     wrapper: {
