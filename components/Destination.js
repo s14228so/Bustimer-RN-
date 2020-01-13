@@ -8,7 +8,9 @@ const Destination = ({ dest, change }) => {
     return (
         <View style={styles.distination}>
             <Text style={styles.distTitle}>{makeDistStr(dest.from)}</Text>
-            <ChangeButton change={change} />
+            <View style={styles.arrow}>
+                <ChangeButton change={change} />
+            </View>
             <Text style={styles.distTitle}>{makeDistStr(dest.to)}</Text>
         </View>
     )
