@@ -203,4 +203,8 @@ const styles = StyleSheet.create({
   }
 });
 
+HomeScreen.navigationOptions = {
+  title: 'Bustimer',
+};
+
 export default HomeScreen

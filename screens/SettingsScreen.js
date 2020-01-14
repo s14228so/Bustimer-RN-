@@ -4,7 +4,7 @@ import { ToggleButton, Surface, Divider } from 'react-native-paper';
 import { Store } from "../store"
 
 
-const Setting = () => {
+const SettingScreen = () => {
   const { state, dispatch } = useContext(Store)
   // const [dest, setDest] = useState({ from: "sfc", to: "sho" })
   const [isSwitchOn, changeSwitch] = useState(false)
@@ -41,9 +41,9 @@ const Setting = () => {
 
   return (
     <View style={styles.centerItem}>
+      <View></View>
       <View>
         <Text>湘南台</Text>
-        {/* <Switch value={dest.to === "sho"} onValueChange={val => _storeData(val)} /> */}
         <Switch
           value={isSwitchOn}
           onValueChange={() => {
@@ -52,34 +52,26 @@ const Setting = () => {
           }
           }
         />
-        <Divider />
+      </View>
+      <View>
         <Text>辻堂</Text>
         <Switch
           value={!isSwitchOn}
           onValueChange={() => {
             changeSwitch(!isSwitchOn);
             _storeData(!isSwitchOn ? "sho" : "tuji")
-          }
-          }
-        />
-        {/* <Switch value={dest.to === "tuji"} onValueChange={val => _storeData(val)} /> */}
+          }} />
       </View>
-
-      {/* <ToggleButton.Row
-        onValueChange={value => _storeData(value)}
-        value={dest.to}
-      >
-        <Text>湘南台</Text>
-        <ToggleButton icon="format-align-left" value="sho" />
-        <Text>辻堂</Text>
-        <ToggleButton icon="format-align-right" value="tuji" />
-      </ToggleButton.Row> */}
+      <View></View>
     </View>
 
   )
 
 }
 
+SettingScreen.navigationOptions = {
+  title: '設定',
+};
 
 
 const styles = StyleSheet.create({
@@ -92,8 +84,8 @@ const styles = StyleSheet.create({
   centerItem: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
   }
 })
-export default Setting
+export default SettingScreen
