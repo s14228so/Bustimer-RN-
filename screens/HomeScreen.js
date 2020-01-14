@@ -10,15 +10,18 @@ import timeTable from "../static/timeTable.json"
 
 const HomeScreen = () => {
 
+  // const { state, dispatch } = useContext(Store)
 
   const [now, setNow] = useState(makeDate(new Date()));
   const [dest, setDest] = useState({ from: "sfc", to: "sho" })
-  console.log({ dest })
   const [nextBuses, setNextBuses] = useState([])
   const [timer, setTimer] = useState({ leftMinute: 0, leftSecond: 0 })
+
   const change = () => {
     setDest({ from: dest.to, to: dest.from })
   }
+
+
 
 
   useEffect(() => {
@@ -80,23 +83,25 @@ const HomeScreen = () => {
 
 
   useEffect(() => {
-    try {
-      AsyncStorage.getItem('destination').then(value => {
+    const _fetchStore = async () => {
+      try {
+        const value = await AsyncStorage.getItem('destination')
         if (value !== null) {
-          console.log(value);
-          setDest({ ...state, to: value })
+          const { to } = JSON.parse(value)
+          setDest({ ...dest, to })
         }
-
-      })
-
-    } catch (error) {
-      // Error retrieving data
+      }
+      catch (error) {
+        // Error retrieving data
+      }
     }
+
+    _fetchStore();
   }, []);
 
 
 
-  return (<View>
+  return (<View >
     <ImageBackground source={require('../assets/images/sfc.png')} style={styles.timer}>
       <Timer now={now} timer={timer} nextBuses={nextBuses} />
     </ImageBackground>
