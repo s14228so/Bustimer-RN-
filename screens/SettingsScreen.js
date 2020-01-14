@@ -6,14 +6,17 @@ import { Store } from "../store"
 
 const Setting = () => {
   const { state, dispatch } = useContext(Store)
-  const [dest, setDest] = useState({ from: "sfc", to: "sho" })
+  // const [dest, setDest] = useState({ from: "sfc", to: "sho" })
+  const [isSwitchOn, changeSwitch] = useState(false)
 
   useEffect(() => {
     try {
       AsyncStorage.getItem('destination').then(value => {
         if (value !== null) {
           const { to } = JSON.parse(value)
-          setDest({ ...dest, to })
+          if (to === "sho") {
+            changeSwitch(true)
+          }
         }
       })
     } catch (error) {
@@ -24,9 +27,9 @@ const Setting = () => {
 
 
 
-  const _storeData = async (value) => {
-    setDest({ to: value ? "sho" : "tuji", from: "sfc" })
-    const newData = JSON.stringify({ to: value ? "sho" : "tuji", from: "sfc" })
+  const _storeData = async (to) => {
+    console.log({ to })
+    const newData = JSON.stringify({ to, from: "sfc" })
     try {
       await AsyncStorage.setItem('destination', newData);
       // dispatch({ type: "SET_DEST", payload: { to: value, from: "sfc" } })
@@ -40,10 +43,26 @@ const Setting = () => {
     <View style={styles.centerItem}>
       <View>
         <Text>湘南台</Text>
-        <Switch value={dest.to === "sho"} onValueChange={val => _storeData(val)} />
+        {/* <Switch value={dest.to === "sho"} onValueChange={val => _storeData(val)} /> */}
+        <Switch
+          value={isSwitchOn}
+          onValueChange={() => {
+            changeSwitch(!isSwitchOn);
+            _storeData(!isSwitchOn ? "sho" : "tuji")
+          }
+          }
+        />
         <Divider />
         <Text>辻堂</Text>
-        <Switch value={dest.to === "tuji"} onValueChange={val => _storeData(val)} />
+        <Switch
+          value={!isSwitchOn}
+          onValueChange={() => {
+            changeSwitch(!isSwitchOn);
+            _storeData(!isSwitchOn ? "sho" : "tuji")
+          }
+          }
+        />
+        {/* <Switch value={dest.to === "tuji"} onValueChange={val => _storeData(val)} /> */}
       </View>
 
       {/* <ToggleButton.Row
