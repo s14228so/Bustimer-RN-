@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react"
-import { View, StyleSheet, ImageBackground, AsyncStorage } from 'react-native'
+import { View, Text, StyleSheet, ImageBackground, AsyncStorage } from 'react-native'
 import { Store } from "../store"
 import NextBusList from "../components/NextBusList"
 import Destination from "../components/Destination"
 import Timer from "../components/Timer"
 import makeDate from "../helpers/dateFormatter"
 import timeTable from "../static/timeTable.json"
-
+import { Button } from "react-native-paper"
 
 const HomeScreen = () => {
 
@@ -102,6 +102,7 @@ const HomeScreen = () => {
 
 
   return (<View >
+
     <ImageBackground source={require('../assets/images/sfc.png')} style={styles.timer}>
       <Timer now={now} timer={timer} nextBuses={nextBuses} />
     </ImageBackground>
@@ -204,7 +205,21 @@ const styles = StyleSheet.create({
 });
 
 HomeScreen.navigationOptions = {
-  title: 'Bustimer',
+  headerTitle: () => <Text>aaaa</Text>,
+  headerRight: () => (
+    <Button
+      onPress={() => alert('This is a button!')}
+      title="Info"
+      color="#fff"
+    />
+  ),
+  // (
+  //     <Button icon="camera"
+  //       onPress={() => alert('This is a button!')}
+  //     >
+  //       Press me
+  // </Button>
+  // ),
 };
 
 export default HomeScreen

@@ -6,7 +6,6 @@ import { Platform, StatusBar, StyleSheet, View, SafeAreaView, ImageBackground } 
 import { Ionicons } from '@expo/vector-icons';
 import { Provider, Store } from './store'
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
-import Header from './components/layouts/Header';
 
 import AppNavigator from './navigation/AppNavigator';
 
@@ -39,7 +38,6 @@ export default function App(props) {
           {/* <SafeAreaView style={styles.header}>
         </SafeAreaView> */}
           <View style={styles.container}>
-            {/* <Header /> */}
             <View style={styles.container2}>
               {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
               <AppNavigator defaultDest={defaultDest} />
