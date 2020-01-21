@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react"
 import { View, Text, StyleSheet, ImageBackground, AsyncStorage } from 'react-native'
-import { Store } from "../store"
+import { NavigationEvents } from "react-navigation"
 import NextBusList from "../components/NextBusList"
 import Destination from "../components/Destination"
 import Timer from "../components/Timer"
@@ -76,26 +76,26 @@ const HomeScreen = () => {
 
   useEffect(() => {
     fetchBus()
-
   }, [dest]);
+
+  const _fetchStore = async () => {
+    try {
+      const value = await AsyncStorage.getItem('destination')
+      if (value !== null) {
+        const { to } = JSON.parse(value)
+        setDest({ ...dest, to })
+      }
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
 
 
   useEffect(() => {
-    const _fetchStore = async () => {
-      try {
-        const value = await AsyncStorage.getItem('destination')
-        if (value !== null) {
-          const { to } = JSON.parse(value)
-          setDest({ ...dest, to })
-        }
-      }
-      catch (error) {
-        console.log(error)
-      }
-    }
-
     _fetchStore();
   }, []);
+
 
 
 
@@ -103,6 +103,9 @@ const HomeScreen = () => {
     <ImageBackground source={require('../assets/images/sfc.png')} style={styles.timer}>
       <Timer now={now} timer={timer} nextBuses={nextBuses} />
     </ImageBackground>
+    <NavigationEvents
+      onWillFocus={() => _fetchStore()}
+    />
 
     <Destination dest={dest} change={change} />
     <NextBusList nextBuses={nextBuses} />

@@ -28,7 +28,6 @@ const SettingScreen = () => {
 
 
   const _storeData = async (to) => {
-    console.log({ to })
     const newData = JSON.stringify({ to, from: "sfc" })
     try {
       await AsyncStorage.setItem('destination', newData);
