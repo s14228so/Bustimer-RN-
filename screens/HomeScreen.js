@@ -90,7 +90,7 @@ const HomeScreen = () => {
         }
       }
       catch (error) {
-        // Error retrieving data
+        console.log(error)
       }
     }
 
