@@ -102,7 +102,6 @@ const HomeScreen = () => {
 
 
   return (<View >
-
     <ImageBackground source={require('../assets/images/sfc.png')} style={styles.timer}>
       <Timer now={now} timer={timer} nextBuses={nextBuses} />
     </ImageBackground>
@@ -110,14 +109,7 @@ const HomeScreen = () => {
     <Destination dest={dest} change={change} />
     <NextBusList nextBuses={nextBuses} />
   </View>)
-
-
-
-
-
-
 }
-
 
 const styles = StyleSheet.create({
   textCenter: {
@@ -204,22 +196,17 @@ const styles = StyleSheet.create({
   }
 });
 
-HomeScreen.navigationOptions = {
-  headerTitle: () => <Text>aaaa</Text>,
-  headerRight: () => (
-    <Button
-      onPress={() => alert('This is a button!')}
-      title="Info"
-      color="#fff"
-    />
-  ),
-  // (
-  //     <Button icon="camera"
-  //       onPress={() => alert('This is a button!')}
-  //     >
-  //       Press me
-  // </Button>
-  // ),
-};
+HomeScreen.navigationOptions = ({ navigation }) => ({
+  headerTitle: () => <Text>Bustimer</Text>,
+  headerRight: () => {
+    return (
+      <Button icon="settings-outline"
+        color="#000"
+        onPress={() => navigation.navigate('Settings')}
+      >
+      </Button>
+    )
+  }
+});
 
 export default HomeScreen

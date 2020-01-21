@@ -1,2 +1,2 @@
 clean:
-	rm -rf node_modules && rm package-lock.json && npm install
+	rm -rf node_modules && rm yarn.lock && npm install
