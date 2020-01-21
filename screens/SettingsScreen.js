@@ -1,28 +1,24 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { AsyncStorage, StyleSheet, Text, View, Subheading, Switch } from 'react-native';
-import { ToggleButton, Surface, Divider } from 'react-native-paper';
-import { Store } from "../store"
-
+import React, { useState, useEffect } from 'react';
+import { AsyncStorage, StyleSheet, Text, View, Switch } from 'react-native';
 
 const SettingScreen = () => {
-  const { state, dispatch } = useContext(Store)
-  // const [dest, setDest] = useState({ from: "sfc", to: "sho" })
   const [isSwitchOn, changeSwitch] = useState(false)
 
   useEffect(() => {
     try {
       AsyncStorage.getItem('destination').then(value => {
+        //AsyncStorageにユーザーのデフォルト設定を取得しに行く
         if (value !== null) {
           const { to } = JSON.parse(value)
           if (to === "sho") {
             changeSwitch(true)
+            //stateのスウィッチを入れ替える
           }
         }
       })
     } catch (error) {
-      // Error retrieving data
+      console.log(error)
     }
-
   }, []);
 
 
@@ -31,7 +27,7 @@ const SettingScreen = () => {
     const newData = JSON.stringify({ to, from: "sfc" })
     try {
       await AsyncStorage.setItem('destination', newData);
-      // dispatch({ type: "SET_DEST", payload: { to: value, from: "sfc" } })
+      //AsyncStorageにユーザーのデフォルト設定を更新しに行く
     } catch (error) {
       console.log("error:", error)
     }
