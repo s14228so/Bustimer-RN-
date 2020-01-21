@@ -9,29 +9,28 @@ import timeTable from "../static/timeTable.json"
 import { Button } from "react-native-paper"
 
 const HomeScreen = () => {
-
-  // const { state, dispatch } = useContext(Store)
-
   const [now, setNow] = useState(makeDate(new Date()));
+  //現在時刻をstateに
   const [dest, setDest] = useState({ from: "sfc", to: "sho" })
+  //行き先をstateに
   const [nextBuses, setNextBuses] = useState([])
+  //これから来るバス配列をstateに(NextBusListコンポーネントに渡す用)
   const [timer, setTimer] = useState({ leftMinute: 0, leftSecond: 0 })
+  //timerをstateに(Timerコンポーネントに渡す用)
 
-  const change = () => {
-    setDest({ from: dest.to, to: dest.from })
+  const change = () => { //目的地と現在地をを入れ替えるボタンをクリックした時に発火
+    setDest({ from: dest.to, to: dest.from }) //目的地(to)と現在地(from)を入れ替えてる
   }
-
-
 
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       setNow(makeDate(new Date()));
     }, 1000);
+    //1秒ごとに現在時刻を更新してstateに入れる
 
     if (nextBuses.length) {
       const nextBus = nextBuses[0]
-
       let leftMinute, leftSecond;
       leftSecond = 60 - now.second - 1;
       const hour = parseInt(nextBus.h)
@@ -54,7 +53,6 @@ const HomeScreen = () => {
 
     return () => { clearInterval(intervalId) };
   }, [now]);
-
 
 
 

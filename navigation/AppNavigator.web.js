@@ -11,3 +11,6 @@ const switchNavigator = createSwitchNavigator({
 switchNavigator.path = '';
 
 export default createBrowserApp(switchNavigator, { history: 'hash' });
+
+
+//このファイルはデフォであったWeb用のファイルだからよくわからない(笑)
